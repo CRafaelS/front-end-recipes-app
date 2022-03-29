@@ -22,8 +22,8 @@ function Routes() {
   return (
     <Switch>
       <Route exact path="/" component={ Login } />
-      <Route path="/foods" component={ Foods } />
-      <Route path="/drinks" component={ Drinks } />
+      <Route exact path="/foods" component={ Foods } />
+      <Route exact path="/drinks" component={ Drinks } />
       <Route path="/foods/:id" component={ FoodDetails } />
       <Route path="/drinks/:id" component={ DrinkDetails } />
       <Route path="/foods/:id/in-progress" component={ ProgressFoodRecipe } />
@@ -34,9 +34,9 @@ function Routes() {
       <Route path="/explore/foods/ingredients" component={ FoodIngredients } />
       <Route path="/explore/drinks/ingredients" component={ DrinksIngredients } />
       <Route path="/explore/foods/nationalities" component={ FoodNacionalities } />
-      <Route path="//profile" component={ Profile } />
+      <Route path="/profile" component={ Profile } />
       <Route path="/done-recipes" component={ DoneRecipes } />
-      <Route path="/favorite-recipes." component={ FavoriteRecipes } />
+      <Route path="/favorite-recipes" component={ FavoriteRecipes } />
       <Route path="*" component={ NotFound } />
     </Switch>
   );

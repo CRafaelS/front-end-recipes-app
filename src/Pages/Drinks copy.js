@@ -1,12 +1,13 @@
 import React from 'react';
 import Footer from '../Components/Footer';
 
-function Profile() {
+function Drinks() {
+  console.log('Eita');
   return (
     <div>
-      <h1>Eu sou o Profile</h1>
+      <h1>Eu sou o Drink</h1>
       <Footer />
     </div>
   );
 }
-export default Profile;
+export default Drinks;
