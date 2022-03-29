@@ -1,9 +1,9 @@
 import React from 'react';
+import Header from '../Components/Header';
 
 function Drinks() {
-  console.log('Eita');
   return (
-    <h1>Eu sou o Drink</h1>
+    <Header title="Drinks" showButton />
   );
 }
 export default Drinks;
