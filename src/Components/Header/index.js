@@ -29,6 +29,10 @@ function Header({ title, showButton }) {
         >
           <img src={ searchIcon } alt="search" />
         </button>)}
+      {inputVisable && (
+        <input type="text" data-testid="search-input" />
+      )}
+
     </header>
   );
 }
