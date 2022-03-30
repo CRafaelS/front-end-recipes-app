@@ -25,7 +25,7 @@ function Footer() {
         >
           <img
             src={ exploreIcon }
-            alt="IconedeExplore"
+            alt="Icone de Explore"
             data-testid="explore-bottom-btn"
           />
         </button>
@@ -34,7 +34,7 @@ function Footer() {
         <button type="button">
           <img
             src={ mealIcon }
-            alt="Icone de Explore"
+            alt="Icone do Foods"
             data-testid="food-bottom-btn"
           />
         </button>
