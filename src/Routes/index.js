@@ -18,7 +18,8 @@ import DoneRecipes from '../Pages/DoneRecipes';
 import FavoriteRecipes from '../Pages/FavoriteRecipes';
 import NotFound from '../Pages/NotFound';
 
-function Routes() {
+const Routes = () => (
+
   <Switch>
     <Route exact path="/" component={ Login } />
     <Route path="/foods" component={ Foods } />
@@ -37,7 +38,6 @@ function Routes() {
     <Route path="/done-recipes" component={ DoneRecipes } />
     <Route path="/favorite-recipes." component={ FavoriteRecipes } />
     <Route path="*" component={ NotFound } />
-  </Switch>;
-}
+  </Switch>);
 
 export default Routes;
