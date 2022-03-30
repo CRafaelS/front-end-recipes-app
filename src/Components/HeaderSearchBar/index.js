@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './style.css';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import {
   requestIngredientFromApi,
   requestNameFromApi,
@@ -8,37 +8,59 @@ import {
 } from '../../services/apiRequests';
 
 export default function HeaderSearchBar() {
-  const [foods, setFoods] = useState({
+  const [inputs, setInputs] = useState({
     search: '',
     selectedOption: '',
   });
+  /* const [foods, setFoods] = useState([]); */
+  const [drinks, setDrinks] = useState([]);
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
-    setFoods((prevState) => ({
+    setInputs((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
 
   const requestApiForFoodPage = (food) => {
-    if (foods.selectedOption === 'ingredient') {
-      return requestIngredientFromApi(food, foods.search);
+    if (inputs.selectedOption === 'ingredient') {
+      return requestIngredientFromApi(food, inputs.search);
     }
-    if (foods.selectedOption === 'name') {
-      return requestNameFromApi(food, foods.search);
+    if (inputs.selectedOption === 'name') {
+      return requestNameFromApi(food, inputs.search);
     }
-    if (foods.selectedOption === 'firstLetter' && foods.search.length > 1) {
+    if (inputs.selectedOption === 'firstLetter' && inputs.search.length > 1) {
       global.alert('Your search must have only 1 (one) character');
     }
-    return requestFirstLetterFromApi(food, foods.search);
+    return requestFirstLetterFromApi(food, inputs.search);
   };
 
   const actualPath = useLocation();
+  const history = useHistory();
 
-  const handleSubmit = () => {
-    if (actualPath.pathname === '/foods') { requestApiForFoodPage('themealdb'); }
-    if (actualPath.pathname === '/drinks') { requestApiForFoodPage('thecocktaildb'); }
+  const redirectToFoodDetails = (param) => {
+    if (param.length === 1) {
+      history.push(`/foods/${param[0].idMeal}`);
+    }
+  };
+
+  const redirectToDrinkDetails = () => {
+    if (drinks.drinks.length === 1) {
+      history.push(`/drinks/${drinks.drinks[0].idDrink}`);
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (actualPath.pathname === '/foods') {
+      const a = await requestApiForFoodPage('themealdb');
+      console.log(await a);
+      redirectToFoodDetails(a.meals);
+    }
+    if (actualPath.pathname === '/drinks') {
+      setDrinks(await requestApiForFoodPage('thecocktaildb'));
+      redirectToDrinkDetails();
+    }
   };
 
   return (
@@ -48,7 +70,7 @@ export default function HeaderSearchBar() {
           <input
             data-testid="search-input"
             name="search"
-            value={ foods.searchInput }
+            value={ inputs.searchInput }
             type="text"
             id="search"
             placeholder="Search Recipe"
@@ -63,7 +85,7 @@ export default function HeaderSearchBar() {
             data-testid="ingredient-search-radio"
             name="selectedOption"
             value="ingredient"
-            checked={ foods.selectedOption === 'ingredient' }
+            checked={ inputs.selectedOption === 'ingredient' }
             type="radio"
             id="Ingredient"
             onChange={ handleChange }
@@ -75,7 +97,7 @@ export default function HeaderSearchBar() {
             data-testid="name-search-radio"
             name="selectedOption"
             value="name"
-            checked={ foods.selectedOption === 'name' }
+            checked={ inputs.selectedOption === 'name' }
             type="radio"
             id="Ingredient"
             onChange={ handleChange }
@@ -87,7 +109,7 @@ export default function HeaderSearchBar() {
             data-testid="first-letter-search-radio"
             name="selectedOption"
             value="firstLetter"
-            checked={ foods.selectedOption === 'firstLetter' }
+            checked={ inputs.selectedOption === 'firstLetter' }
             type="radio"
             id="Ingredient"
             onChange={ handleChange }

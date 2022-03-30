@@ -24,8 +24,8 @@ const Routes = () => (
     <Route exact path="/" component={ Login } />
     <Route path="/foods" component={ Foods } />
     <Route path="/drinks" component={ Drinks } />
-    <Route path="/foods/:id" component={ FoodDetails } />
-    <Route path="/drinks/:id" component={ DrinkDetails } />
+    <Route path="/foods/:id" render={ (props) => <FoodDetails { ...props } /> } />
+    <Route path="/drinks/:id" render={ (props) => <DrinkDetails { ...props } /> } />
     <Route path="/foods/:id/in-progress" component={ ProgressFoodRecipe } />
     <Route path="/drinks/:id/in-progress" component={ ProgressDrinkRecipe } />
     <Route path="/explore" component={ Explorer } />
@@ -36,7 +36,7 @@ const Routes = () => (
     <Route path="/explore/foods/nationalities" component={ FoodNacionalities } />
     <Route path="//profile" component={ Profile } />
     <Route path="/done-recipes" component={ DoneRecipes } />
-    <Route path="/favorite-recipes." component={ FavoriteRecipes } />
+    <Route path="/favorite-recipes" component={ FavoriteRecipes } />
     <Route path="*" component={ NotFound } />
   </Switch>);
 
