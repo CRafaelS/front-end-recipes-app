@@ -12,8 +12,8 @@ export default function HeaderSearchBar() {
     search: '',
     selectedOption: '',
   });
-  /* const [foods, setFoods] = useState([]); */
-  const [drinks, setDrinks] = useState([]);
+  /* const [foods, setFoods] = useState([]);
+  const [drinks, setDrinks] = useState([]); */
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
@@ -45,23 +45,33 @@ export default function HeaderSearchBar() {
     }
   };
 
-  const redirectToDrinkDetails = () => {
-    if (drinks.drinks.length === 1) {
-      history.push(`/drinks/${drinks.drinks[0].idDrink}`);
+  const redirectToDrinkDetails = (param) => {
+    if (param.length === 1) {
+      history.push(`/drinks/${param[0].idDrink}`);
     }
   };
 
   const handleSubmit = async () => {
     if (actualPath.pathname === '/foods') {
-      const a = await requestApiForFoodPage('themealdb');
-      console.log(await a);
-      redirectToFoodDetails(a.meals);
+      const foodsData = await requestApiForFoodPage('themealdb');
+      redirectToFoodDetails(foodsData.meals);
+      /*  setFoods(foodsData); */
     }
     if (actualPath.pathname === '/drinks') {
-      setDrinks(await requestApiForFoodPage('thecocktaildb'));
-      redirectToDrinkDetails();
+      const drinkData = await requestApiForFoodPage('thecocktaildb');
+      console.log(await drinkData);
+      redirectToDrinkDetails(drinkData.drinks);
+      /* setDrinks(drinkData); */
     }
   };
+
+  /* const context = { foods, drinks }; */
+
+  /* useEffect(() => {
+    if (drinks.drinks && drinks.drinks.length === 1) {
+      history.push(`/drinks/${drinks.drinks[0].idDrink}`);
+    }
+  }, [drinks, history]); */
 
   return (
     <div className="container">
