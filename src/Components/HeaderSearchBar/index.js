@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import './style.css';
 import { useLocation, useHistory } from 'react-router-dom';
 import {
@@ -6,14 +6,12 @@ import {
   requestNameFromApi,
   requestFirstLetterFromApi,
 } from '../../services/apiRequests';
+import myContext from '../../context/myContext';
 
 export default function HeaderSearchBar() {
-  const [inputs, setInputs] = useState({
-    search: '',
-    selectedOption: '',
-  });
-  /* const [foods, setFoods] = useState([]);
-  const [drinks, setDrinks] = useState([]); */
+  const { inputs, setInputs, setFoods, setDrinks } = useContext(myContext);
+
+  // funções de ferenciamento de estado
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
@@ -55,17 +53,15 @@ export default function HeaderSearchBar() {
     if (actualPath.pathname === '/foods') {
       const foodsData = await requestApiForFoodPage('themealdb');
       redirectToFoodDetails(foodsData.meals);
-      /*  setFoods(foodsData); */
+      setFoods(foodsData);
     }
     if (actualPath.pathname === '/drinks') {
       const drinkData = await requestApiForFoodPage('thecocktaildb');
       console.log(await drinkData);
       redirectToDrinkDetails(drinkData.drinks);
-      /* setDrinks(drinkData); */
+      setDrinks(drinkData);
     }
   };
-
-  /* const context = { foods, drinks }; */
 
   /* useEffect(() => {
     if (drinks.drinks && drinks.drinks.length === 1) {

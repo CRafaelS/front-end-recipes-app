@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '../Components/Header';
 import HeaderSearchBar from '../Components/HeaderSearchBar';
+import Cards from '../Components/Cards';
 
 function Drinks() {
   const divStyle = {
@@ -10,6 +11,7 @@ function Drinks() {
     <div style={ divStyle }>
       <Header />
       <HeaderSearchBar />
+      <Cards />
     </div>
   );
 }
