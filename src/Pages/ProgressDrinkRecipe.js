@@ -2,7 +2,9 @@ import React from 'react';
 
 function ProgressDrinkRecipe() {
   return (
-    <h1>ProgressDrinkRecipe</h1>
+    <div>
+      <h1>Eu sou o ProgressDrinkRecipe</h1>
+    </div>
   );
 }
 export default ProgressDrinkRecipe;
