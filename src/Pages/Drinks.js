@@ -1,4 +1,5 @@
 import React from 'react';
+import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 import HeaderSearchBar from '../Components/HeaderSearchBar';
 import Cards from '../Components/Cards';
@@ -12,6 +13,7 @@ function Drinks() {
       <Header />
       <HeaderSearchBar />
       <Cards />
+      <Footer />
     </div>
   );
 }
