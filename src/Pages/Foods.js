@@ -1,6 +1,5 @@
 import React from 'react';
 import Header from '../Components/Header';
-import HeaderSearchBar from '../Components/HeaderSearchBar';
 import Cards from '../Components/Cards';
 import Footer from '../Components/Footer';
 
@@ -10,8 +9,7 @@ export default function Foods() {
   };
   return (
     <div style={ divStyle }>
-      <Header />
-      <HeaderSearchBar />
+      <Header title="Foods" showButton />
       <Cards />
       <Footer />
     </div>

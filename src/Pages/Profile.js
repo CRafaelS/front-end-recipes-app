@@ -1,10 +1,11 @@
 import React from 'react';
 import Footer from '../Components/Footer';
+import Header from '../Components/Header';
 
 function Profile() {
   return (
     <div>
-      <h1>Eu sou o Profile</h1>
+      <Header title="Profile" />
       <Footer />
     </div>
   );

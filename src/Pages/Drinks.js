@@ -10,7 +10,7 @@ function Drinks() {
   };
   return (
     <div style={ divStyle }>
-      <Header />
+      <Header title="Drinks" showButton />
       <HeaderSearchBar />
       <Cards />
       <Footer />

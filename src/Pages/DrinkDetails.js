@@ -2,9 +2,7 @@ import React from 'react';
 
 function DrinkDetails() {
   return (
-    <div>
-      <h1>Eu sou o DrinkDetails</h1>
-    </div>
+    <h1>DoneRecipes</h1>
   );
 }
 export default DrinkDetails;
