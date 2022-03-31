@@ -52,14 +52,23 @@ export default function HeaderSearchBar() {
   const handleSubmit = async () => {
     if (actualPath.pathname === '/foods') {
       const foodsData = await requestApiForFoodPage('themealdb');
-      redirectToFoodDetails(foodsData.meals);
-      setFoods(foodsData);
+      if (!foodsData.meals) {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      }
+      if (foodsData.meals) {
+        redirectToFoodDetails(foodsData.meals);
+        setFoods(foodsData);
+      }
     }
     if (actualPath.pathname === '/drinks') {
       const drinkData = await requestApiForFoodPage('thecocktaildb');
-      console.log(await drinkData);
-      redirectToDrinkDetails(drinkData.drinks);
-      setDrinks(drinkData);
+      if (!drinkData.drinks) {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      }
+      if (drinkData.drinks) {
+        redirectToDrinkDetails(drinkData.drinks);
+        setDrinks(drinkData);
+      }
     }
   };
 

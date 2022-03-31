@@ -43,6 +43,11 @@ export default function Cards() {
           ))}
         </div>
       )}
+      {/* {foods.length === 0 && (
+        <div>
+          { global.alert('Sorry')}
+        </div>
+      )} */}
     </div>
   );
 }
