@@ -1,12 +1,19 @@
 import React from 'react';
+import Header from '../Components/Header';
+import HeaderSearchBar from '../Components/HeaderSearchBar';
+import Cards from '../Components/Cards';
 import Footer from '../Components/Footer';
 
-function Foods() {
+export default function Foods() {
+  const divStyle = {
+    width: '360px',
+  };
   return (
-    <div>
-      <h1>Eu sou o Foods</h1>
+    <div style={ divStyle }>
+      <Header />
+      <HeaderSearchBar />
+      <Cards />
       <Footer />
     </div>
   );
 }
-export default Foods;
