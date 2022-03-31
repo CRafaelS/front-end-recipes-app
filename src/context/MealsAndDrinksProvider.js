@@ -7,8 +7,12 @@ export default function MealsAndDrinksProvider({ children }) {
     search: '',
     selectedOption: '',
   });
-  const [foods, setFoods] = useState([]);
-  const [drinks, setDrinks] = useState([]);
+  const [foods, setFoods] = useState({
+    meals: [],
+  });
+  const [drinks, setDrinks] = useState({
+    drinks: [],
+  });
 
   const context = { inputs, setInputs, foods, setFoods, drinks, setDrinks };
   return <myContext.Provider value={ context }>{children}</myContext.Provider>;

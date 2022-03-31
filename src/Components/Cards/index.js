@@ -4,12 +4,12 @@ import './style.css';
 
 export default function Cards() {
   const { foods, drinks } = useContext(myContext);
-  const DOZE = 12;
+  const RECIPES_LIMIT = 12;
   return (
     <div>
-      {foods.meals && foods.meals.length > 1 && (
+      {foods.meals.length > 1 && (
         <div>
-          {foods.meals.slice(0, DOZE).map((food, index) => (
+          {foods.meals.slice(0, RECIPES_LIMIT).map((food, index) => (
             <div
               className="container"
               data-testid={ `${index}-recipe-card` }
@@ -25,9 +25,9 @@ export default function Cards() {
           ))}
         </div>
       )}
-      {drinks.drinks && drinks.drinks.length > 1 && (
+      {drinks.drinks.length > 1 && (
         <div>
-          {drinks.drinks.slice(0, DOZE).map((drink, index) => (
+          {drinks.drinks.slice(0, RECIPES_LIMIT).map((drink, index) => (
             <div
               className="container"
               data-testid={ `${index}-recipe-card` }
@@ -43,11 +43,6 @@ export default function Cards() {
           ))}
         </div>
       )}
-      {/* {foods.length === 0 && (
-        <div>
-          { global.alert('Sorry')}
-        </div>
-      )} */}
     </div>
   );
 }

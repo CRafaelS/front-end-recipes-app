@@ -49,7 +49,8 @@ export default function HeaderSearchBar() {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     if (actualPath.pathname === '/foods') {
       const foodsData = await requestApiForFoodPage('themealdb');
       if (!foodsData.meals) {
@@ -81,21 +82,18 @@ export default function HeaderSearchBar() {
   return (
     <div className="container">
       <div>
-        <label htmlFor="search">
-          <input
-            data-testid="search-input"
-            name="search"
-            value={ inputs.searchInput }
-            type="text"
-            id="search"
-            placeholder="Search Recipe"
-            onChange={ handleChange }
-          />
-        </label>
+        <input
+          data-testid="search-input"
+          name="search"
+          value={ inputs.searchInput }
+          type="text"
+          id="search"
+          placeholder="Search Recipe"
+          onChange={ handleChange }
+        />
       </div>
       <div>
         <label htmlFor="Ingredient">
-          Ingredient
           <input
             data-testid="ingredient-search-radio"
             name="selectedOption"
@@ -105,9 +103,9 @@ export default function HeaderSearchBar() {
             id="Ingredient"
             onChange={ handleChange }
           />
+          Ingredient
         </label>
         <label htmlFor="Ingredient">
-          Name
           <input
             data-testid="name-search-radio"
             name="selectedOption"
@@ -117,9 +115,9 @@ export default function HeaderSearchBar() {
             id="Ingredient"
             onChange={ handleChange }
           />
+          Name
         </label>
         <label htmlFor="Ingredient">
-          First Letter
           <input
             data-testid="first-letter-search-radio"
             name="selectedOption"
@@ -129,11 +127,12 @@ export default function HeaderSearchBar() {
             id="Ingredient"
             onChange={ handleChange }
           />
+          First Letter
         </label>
       </div>
       <button
         data-testid="exec-search-btn"
-        type="button"
+        type="submit"
         onClick={ handleSubmit }
       >
         Search
