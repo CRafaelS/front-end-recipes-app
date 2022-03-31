@@ -18,26 +18,37 @@ import DoneRecipes from '../Pages/DoneRecipes';
 import FavoriteRecipes from '../Pages/FavoriteRecipes';
 import NotFound from '../Pages/NotFound';
 
-function Routes() {
-  <Switch>
-    <Route exact path="/" component={ Login } />
-    <Route path="/foods" component={ Foods } />
-    <Route path="/drinks" component={ Drinks } />
-    <Route path="/foods/:id" component={ FoodDetails } />
-    <Route path="/drinks/:id" component={ DrinkDetails } />
-    <Route path="/foods/:id/in-progress" component={ ProgressFoodRecipe } />
-    <Route path="/drinks/:id/in-progress" component={ ProgressDrinkRecipe } />
-    <Route path="/explore" component={ Explorer } />
-    <Route path="/explore/foods" component={ FoodsExplorer } />
-    <Route path="/explore/drinks" component={ DrinksExplorer } />
-    <Route path="/explore/foods/ingredients" component={ FoodIngredients } />
-    <Route path="/explore/drinks/ingredients" component={ DrinksIngredients } />
-    <Route path="/explore/foods/nationalities" component={ FoodNacionalities } />
-    <Route path="//profile" component={ Profile } />
-    <Route path="/done-recipes" component={ DoneRecipes } />
-    <Route path="/favorite-recipes." component={ FavoriteRecipes } />
-    <Route path="*" component={ NotFound } />
-  </Switch>;
-}
+import MealsAndDrinksProvider from '../context/MealsAndDrinksProvider';
+
+const Routes = () => (
+  <MealsAndDrinksProvider>
+    <Switch>
+      <Route exact path="/" component={ Login } />
+      <Route path="/foods" component={ Foods } />
+      <Route path="/drinks" component={ Drinks } />
+      <Route path="/foods/:id" render={ (props) => <FoodDetails { ...props } /> } />
+      <Route
+        path="/drinks/:id"
+        render={ (props) => <DrinkDetails { ...props } /> }
+      />
+      <Route path="/foods/:id/in-progress" component={ ProgressFoodRecipe } />
+      <Route path="/drinks/:id/in-progress" component={ ProgressDrinkRecipe } />
+      <Route path="/explore" component={ Explorer } />
+      <Route path="/explore/foods" component={ FoodsExplorer } />
+      <Route path="/explore/drinks" component={ DrinksExplorer } />
+      <Route path="/explore/foods/ingredients" component={ FoodIngredients } />
+      <Route path="/explore/drinks/ingredients" component={ DrinksIngredients } />
+      <Route
+        path="/explore/foods/nationalities"
+        component={ FoodNacionalities }
+      />
+      <Route path="//profile" component={ Profile } />
+      <Route path="/done-recipes" component={ DoneRecipes } />
+      <Route path="/favorite-recipes" component={ FavoriteRecipes } />
+      <Route path="*" component={ NotFound } />
+    </Switch>
+    ;
+  </MealsAndDrinksProvider>
+);
 
 export default Routes;

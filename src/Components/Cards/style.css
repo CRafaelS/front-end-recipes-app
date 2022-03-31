@@ -1,0 +1,11 @@
+img {
+  height: 109px;
+  width: 161px;
+}
+
+.container {
+  border: 1px solid;
+  display: flex;
+  height: 172px;
+  width: 162px;
+}
