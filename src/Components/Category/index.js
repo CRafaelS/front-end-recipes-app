@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { requesCategoriesFromApi } from '../../services/apiRequests';
-// import './style.css'
 
 function Category() {
   const [foodsCategories, setFoodsCategories] = useState([]);
