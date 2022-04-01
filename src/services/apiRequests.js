@@ -45,3 +45,15 @@ export async function requesCategoriesFromApi(typeOfCategoy) {
     console.log(error);
   }
 }
+
+export async function requesClickCategoryFromApi(typeOfCategoy, buttonCategoy) {
+  try {
+    const response = await fetch(
+      `https://www.${typeOfCategoy}.com/api/json/v1/1/filter.php?c=${buttonCategoy}`,
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
