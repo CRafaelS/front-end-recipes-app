@@ -66,8 +66,29 @@ function Category() {
     }
   };
 
+  const handleAll = async () => {
+    if (actualPath.pathname === '/foods') {
+      const foodData = await requestNameFromApi('themealdb', '');
+      setFoods(foodData);
+      setclickFoodsCategories([]);
+    }
+
+    if (actualPath.pathname === '/drinks') {
+      const drinkData = await requestNameFromApi('thecocktaildb', '');
+      setDrinks(drinkData);
+      setclickDrinksCategories([]);
+    }
+  };
+
   return (
     <div>
+      <button
+        type="button"
+        data-testid="All-category-filter"
+        onClick={ handleAll }
+      >
+        ALL
+      </button>
       {foodsCategories && foodsCategories
         .slice(0, CATEGORY_LIMIT).map((categoryName) => (
           <button
