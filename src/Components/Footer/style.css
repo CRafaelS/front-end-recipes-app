@@ -2,3 +2,10 @@
   bottom: 0;
   position: fixed;
 }
+
+.Footer img {
+  height: 50px;
+  width: 50px;
+  margin-left: 26px;
+  margin-right: 26px;
+}
