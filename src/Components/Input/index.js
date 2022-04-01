@@ -16,7 +16,7 @@ function Input({
         id={ name }
         name={ name }
         type={ type }
-        onChange={ controller }
+        onChange={ ({ target: { value } }) => controller(value) }
       />
     </label>
   );
