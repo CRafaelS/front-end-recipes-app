@@ -1,4 +1,4 @@
-export default function validadeLogin(email, password) {
+export default function validadeLogin({ email }, password) {
   const MIN_PASSWORD_LENGTH = 7;
   const emailRegex = /.+@.+\.com/;
   return (

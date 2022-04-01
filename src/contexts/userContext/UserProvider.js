@@ -4,24 +4,27 @@ import userContext from './index';
 import validadeLogin from '../../helpers/validateLogin';
 
 function UserProvider({ children }) {
-  const [email, setEmail] = useState('');
+  const [user, setUser] = useState({ email: '' });
   const [password, setPassword] = useState('');
   const [isLoginValid, setLoginValidate] = useState(false);
-  const [isLogged, setLogin] = useState(false);
 
   useEffect(() => {
     setLoginValidate(
-      validadeLogin(email, password),
+      validadeLogin(user, password),
     );
-  }, [email, password]);
+  }, [user, password]);
 
-  useEffect(() => {
-    localStorage.setItem('mealsToken', 1);
-    localStorage.setItem('cocktailsToken', 1);
-  }, [isLogged]);
+  const setEmail = (email) => {
+    setUser({
+      ...user,
+      email,
+    });
+  };
 
   const login = () => {
-    setLogin(true);
+    localStorage.setItem('mealsToken', 1);
+    localStorage.setItem('cocktailsToken', 1);
+    localStorage.setItem('user', JSON.stringify(user));
   };
 
   const contextValue = {
