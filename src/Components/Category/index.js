@@ -5,6 +5,7 @@ import myContext from '../../context/myContext';
 import {
   requesCategoriesFromApi,
   requesClickCategoryFromApi,
+  requestNameFromApi,
 } from '../../services/apiRequests';
 import './style.css';
 
@@ -12,8 +13,9 @@ function Category() {
   const { setFoods, setDrinks } = useContext(myContext);
   const [foodsCategories, setFoodsCategories] = useState([]);
   const [drinksCategories, setdrinksCategories] = useState([]);
-  const [clickFoodsCategories, setdrinksFoodsCategories] = useState([]);
+  const [clickFoodsCategories, setclickFoodsCategories] = useState([]);
   const [clickDrinksCategories, setclickDrinksCategories] = useState([]);
+  const [compareCategory, setCompareCategory] = useState('');
   const actualPath = useLocation();
   const CATEGORY_LIMIT = 5;
   const RECIPES_LIMIT = 12;
@@ -36,17 +38,31 @@ function Category() {
   const handleCategory = async ({ target }) => {
     const { name } = target;
     if (actualPath.pathname === '/foods') {
-      const foodDataCategory = await requesClickCategoryFromApi('themealdb', name);
-      console.log(foodDataCategory.meals);
-      setdrinksFoodsCategories(foodDataCategory.meals);
-      setFoods({ meals: [] });
+      if (name === compareCategory) {
+        const foodData = await requestNameFromApi('themealdb', '');
+        setFoods(foodData);
+        setclickFoodsCategories([]);
+        setCompareCategory('');
+      } else {
+        setCompareCategory(name);
+        const foodDataCategory = await requesClickCategoryFromApi('themealdb', name);
+        setclickFoodsCategories(foodDataCategory.meals);
+        setFoods({ meals: [] });
+      }
     }
 
     if (actualPath.pathname === '/drinks') {
-      const drinkDataCategory = await requesClickCategoryFromApi('thecocktaildb', name);
-      console.log(drinkDataCategory.drinks);
-      setclickDrinksCategories(drinkDataCategory.drinks);
-      setDrinks({ drinks: [] });
+      if (name === compareCategory) {
+        const drinkData = await requestNameFromApi('thecocktaildb', '');
+        setDrinks(drinkData);
+        setclickDrinksCategories([]);
+        setCompareCategory('');
+      } else {
+        setCompareCategory(name);
+        const drinkDataCategory = await requesClickCategoryFromApi('thecocktaildb', name);
+        setclickDrinksCategories(drinkDataCategory.drinks);
+        setDrinks({ drinks: [] });
+      }
     }
   };
 
