@@ -7,6 +7,7 @@ function UserProvider({ children }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoginValid, setLoginValidate] = useState(false);
+  const [isLogged, setLogin] = useState(false);
 
   useEffect(() => {
     setLoginValidate(
@@ -14,10 +15,20 @@ function UserProvider({ children }) {
     );
   }, [email, password]);
 
+  useEffect(() => {
+    localStorage.setItem('mealsToken', 1);
+    localStorage.setItem('cocktailsToken', 1);
+  }, [isLogged]);
+
+  const login = () => {
+    setLogin(true);
+  };
+
   const contextValue = {
     isLoginValid,
     setEmail,
     setPassword,
+    login,
   };
 
   return (

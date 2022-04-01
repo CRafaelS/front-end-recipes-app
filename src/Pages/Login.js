@@ -3,9 +3,20 @@ import Input from '../Components/Input';
 import userContext from '../contexts/userContext';
 
 function Login() {
-  const { setEmail, setPassword, isLoginValid } = useContext(userContext);
+  const {
+    setEmail,
+    setPassword,
+    isLoginValid,
+    login,
+  } = useContext(userContext);
+
+  const handleSubmit = (submit) => {
+    submit.preventDefault();
+    login();
+  };
+
   return (
-    <form>
+    <form onSubmit={ handleSubmit }>
       <Input
         name="email"
         type="email"
