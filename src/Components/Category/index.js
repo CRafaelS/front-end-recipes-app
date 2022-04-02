@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import myContext from '../../context/myContext';
 import {
   requesCategoriesFromApi,
@@ -17,6 +16,7 @@ function Category() {
   const [clickDrinksCategories, setclickDrinksCategories] = useState([]);
   const [compareCategory, setCompareCategory] = useState('');
   const actualPath = useLocation();
+  const history = useHistory();
   const CATEGORY_LIMIT = 5;
   const RECIPES_LIMIT = 12;
 
@@ -80,6 +80,15 @@ function Category() {
     }
   };
 
+  const handleCard = (id) => {
+    if (actualPath.pathname === '/foods') {
+      history.push(`/foods/${id}`);
+    }
+    if (actualPath.pathname === '/drinks') {
+      history.push(`/drinks/${id}`);
+    }
+  };
+
   return (
     <div>
       <button
@@ -115,9 +124,12 @@ function Category() {
         ))}
       {clickFoodsCategories && clickFoodsCategories
         .slice(0, RECIPES_LIMIT).map((foodCategory, index) => (
-          <div
+          <button
             key={ foodCategory.idMeal }
             data-testid={ `${index}-recipe-card` }
+            className="container"
+            type="button"
+            onClick={ () => handleCard(foodCategory.idMeal) }
           >
             <img
               src={ foodCategory.strMealThumb }
@@ -125,13 +137,16 @@ function Category() {
               data-testid={ `${index}-card-img` }
             />
             <p data-testid={ `${index}-card-name` }>{foodCategory.strMeal}</p>
-          </div>
+          </button>
         ))}
       {clickDrinksCategories && clickDrinksCategories
         .slice(0, RECIPES_LIMIT).map((drinkCategory, index) => (
-          <div
+          <button
             key={ drinkCategory.idDrink }
             data-testid={ `${index}-recipe-card` }
+            className="container"
+            type="button"
+            onClick={ () => handleCard(drinkCategory.idDrink) }
           >
             <img
               src={ drinkCategory.strDrinkThumb }
@@ -139,7 +154,7 @@ function Category() {
               data-testid={ `${index}-card-img` }
             />
             <p data-testid={ `${index}-card-name` }>{drinkCategory.strDrink}</p>
-          </div>
+          </button>
         ))}
     </div>
   );
