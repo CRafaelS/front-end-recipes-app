@@ -1,20 +1,42 @@
-import React, { useContext } from 'react';
-import shareicon from '../../images/shareIcon.svg';
+import React, { useContext, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import './style.css';
 import myContext from '../../context/myContext';
 
 export default function Drink() {
-  const { drinks } = useContext(myContext);
+  const { drinks, setDrinks, progress, setProgress } = useContext(myContext);
+  const location = useLocation();
+  console.log(location);
+  const a = location.pathname.split('/');
+  console.log(a);
 
-  const drinkItem = drinks.drinks[0];
-  const arrKeyValues = Object.entries(drinkItem);
-  const arrIngredientsDrinks = arrKeyValues.map(([key, value]) => (
-    key.includes('Ingredient') ? value : ''));
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch(
+        `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${a[2]}`,
+      );
+      const data = await response.json();
+      console.log(await data);
+      setDrinks(data);
+    }
+    fetchData();
+  }, [setDrinks]);
+
+  useEffect(() => {
+    let arrIngredientsFoods = [];
+    if (drinks.drinks[0]) {
+      const arrKeyValues1 = Object.entries(drinks.drinks[0]);
+      arrIngredientsFoods = arrKeyValues1.map(([key, value]) => (
+        key.includes('Ingredient') ? value : ''));
+      setProgress(arrIngredientsFoods);
+    }
+  }, [drinks, setProgress]);
 
   return (
     <div>
-      {drinks.drinks.length === 1 && (
+      {progress.length && (
         <div className="container">
           <img
             className="img-rip"
@@ -25,16 +47,29 @@ export default function Drink() {
           <br />
           <p data-testid="recipe-title">{drinks.drinks[0].strDrink}</p>
           <div className="icon-container">
-            <img className="icon-rip" src={ shareicon } alt="share" />
-            <img className="icon-rip" src={ whiteHeartIcon } alt="share" />
+            <img
+              data-testid="share-btn"
+              className="icon-rip"
+              src={ shareIcon }
+              alt="share"
+            />
+            <img
+              data-testid="favorite-btn"
+              className="icon-rip"
+              src={ whiteHeartIcon }
+              alt="share"
+            />
           </div>
-          {arrIngredientsDrinks.map((item, index) => (
-            item
-              ? (
-                <label key={ index } htmlFor={ index }>
-                  <input id={ index } type="checkbox" />
-                  {item}
-                </label>) : null))}
+          {progress.map((item, index) => (item ? (
+            <label key={ index } htmlFor={ index }>
+              <input
+                data-testid={ `${index}-ingredient-step` }
+                id={ index }
+                type="checkbox"
+              />
+              {item}
+            </label>
+          ) : null))}
           <p data-testid="recipe-category">{drinks.drinks[0].strCategory}</p>
           <p data-testid="instructions">{drinks.drinks[0].strInstructions}</p>
           <div>
@@ -42,9 +77,9 @@ export default function Drink() {
               Finish Recipe
             </button>
           </div>
-        </div>)}
+        </div>
+      )}
     </div>
-
   );
 }
 
