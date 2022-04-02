@@ -1,0 +1,25 @@
+.container {
+  border: 1px solid;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  width: 360px;
+}
+
+.icon-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 360px;
+}
+
+.img-rip {
+  height: 155px;
+  width: 360px;
+}
+
+.icon-rip {
+  height: 20px;
+  margin: 0 10px;
+  width: 20px;
+}

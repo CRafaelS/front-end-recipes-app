@@ -12,7 +12,7 @@ import FoodsExplorer from '../Pages/FoodsExplorer';
 import DrinksExplorer from '../Pages/DrinksExplorer';
 import FoodIngredients from '../Pages/FoodIngredients';
 import DrinksIngredients from '../Pages/DrinkIngredients';
-import FoodNacionalities from '../Pages/FoodNationalities';
+import FoodNationalities from '../Pages/FoodNationalities';
 import Profile from '../Pages/Profile';
 import DoneRecipes from '../Pages/DoneRecipes';
 import FavoriteRecipes from '../Pages/FavoriteRecipes';
@@ -34,7 +34,7 @@ const Routes = () => (
       <Route exact path="/explore" component={ Explorer } />
       <Route exact path="/explore/drinks/ingredients" component={ DrinksIngredients } />
       <Route exact path="/explore/foods/ingredients" component={ FoodIngredients } />
-      <Route exact path="/explore/foods/nationalities" component={ FoodNacionalities } />
+      <Route exact path="/explore/foods/nationalities" component={ FoodNationalities } />
       <Route exact path="/explore/foods" component={ FoodsExplorer } />
       <Route exact path="/explore/drinks" component={ DrinksExplorer } />
       <Route exact path="/profile" component={ Profile } />

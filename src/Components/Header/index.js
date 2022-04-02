@@ -4,20 +4,22 @@ import PropTypes from 'prop-types';
 import searchIcon from '../../images/searchIcon.svg';
 import profileIcon from '../../images/profileIcon.svg';
 import HeaderSearchBar from '../HeaderSearchBar';
+import './style.css';
 
 function Header({ title, showButton }) {
   const [inputVisable, setInputVisable] = useState(false);
 
   return (
     <header>
-      <h1 data-testid="page-title">{ title }</h1>
+      <h1 data-testid="page-title">{title}</h1>
       <Link to="/profile">
-        <button
-          type="button"
-          src={ profileIcon }
-          alt="profile"
-        >
-          <img src={ profileIcon } alt="profile" data-testid="profile-top-btn" />
+        <button type="button" src={ profileIcon } alt="profile">
+          <img
+            className="img-header"
+            src={ profileIcon }
+            alt="profile"
+            data-testid="profile-top-btn"
+          />
         </button>
       </Link>
       {showButton && (
@@ -27,12 +29,10 @@ function Header({ title, showButton }) {
           src={ searchIcon }
           onClick={ () => setInputVisable(!inputVisable) }
         >
-          <img src={ searchIcon } alt="search" />
-        </button>)}
-      {inputVisable && (
-        <HeaderSearchBar />
+          <img className="img-header" src={ searchIcon } alt="search" />
+        </button>
       )}
-
+      {inputVisable && <HeaderSearchBar />}
     </header>
   );
 }

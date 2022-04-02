@@ -1,7 +1,6 @@
 import React from 'react';
 import Footer from '../Components/Footer';
 import Header from '../Components/Header';
-import HeaderSearchBar from '../Components/HeaderSearchBar';
 import Cards from '../Components/Cards';
 
 function Drinks() {
@@ -11,7 +10,6 @@ function Drinks() {
   return (
     <div style={ divStyle }>
       <Header title="Drinks" showButton />
-      <HeaderSearchBar />
       <Cards />
       <Footer />
     </div>

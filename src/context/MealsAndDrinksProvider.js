@@ -13,8 +13,20 @@ export default function MealsAndDrinksProvider({ children }) {
   const [drinks, setDrinks] = useState({
     drinks: [],
   });
+  const [progress, setProgress] = useState({
+    progress: [],
+  });
 
-  const context = { inputs, setInputs, foods, setFoods, drinks, setDrinks };
+  const context = {
+    inputs,
+    setInputs,
+    foods,
+    setFoods,
+    drinks,
+    setDrinks,
+    progress,
+    setProgress,
+  };
   return <myContext.Provider value={ context }>{children}</myContext.Provider>;
 }
 MealsAndDrinksProvider.propTypes = {
