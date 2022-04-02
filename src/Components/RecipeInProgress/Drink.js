@@ -8,21 +8,19 @@ import myContext from '../../context/myContext';
 export default function Drink() {
   const { drinks, setDrinks, progress, setProgress } = useContext(myContext);
   const location = useLocation();
-  console.log(location);
-  const a = location.pathname.split('/');
-  console.log(a);
+  const separator = location.pathname.split('/');
 
   useEffect(() => {
     async function fetchData() {
       const response = await fetch(
-        `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${a[2]}`,
+        `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${separator[2]}`,
       );
       const data = await response.json();
       console.log(await data);
       setDrinks(data);
     }
     fetchData();
-  }, [setDrinks]);
+  }, [separator, setDrinks]);
 
   useEffect(() => {
     let arrIngredientsFoods = [];
@@ -61,12 +59,12 @@ export default function Drink() {
             />
           </div>
           {progress.map((item, index) => (item ? (
-            <label key={ index } htmlFor={ index }>
-              <input
-                data-testid={ `${index}-ingredient-step` }
-                id={ index }
-                type="checkbox"
-              />
+            <label
+              data-testid={ `${index}-ingredient-step` }
+              key={ index }
+              htmlFor={ index }
+            >
+              <input id={ index } type="checkbox" />
               {item}
             </label>
           ) : null))}

@@ -8,21 +8,19 @@ import myContext from '../../context/myContext';
 function Food() {
   const { foods, setFoods, progress, setProgress } = useContext(myContext);
   const location = useLocation();
-  console.log(location);
-  const a = location.pathname.split('/');
-  console.log(a);
+  const separator = location.pathname.split('/');
 
   useEffect(() => {
     async function fetchData() {
       const response = await fetch(
-        `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${a[2]}`,
+        `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${separator[2]}`,
       );
       const data = await response.json();
       console.log(await data);
       setFoods(data);
     }
     fetchData();
-  }, [a, setFoods]);
+  }, [separator, setFoods]);
 
   useEffect(() => {
     let arrIngredientsFoods = [];
@@ -61,12 +59,12 @@ function Food() {
             />
           </div>
           {progress.map((food, index) => (food ? (
-            <label key={ index } htmlFor={ index }>
-              <input
-                data-testid={ `${index}-ingredient-step` }
-                id={ index }
-                type="checkbox"
-              />
+            <label
+              data-testid={ `${index}-ingredient-step` }
+              key={ index }
+              htmlFor={ index }
+            >
+              <input id={ index } type="checkbox" />
               {food}
             </label>
           ) : null))}
