@@ -14,7 +14,7 @@ function DoneRecipesProvider({ children }) {
       alcoholicOrNot: '',
       name: '',
       image: '',
-      doneDate: {},
+      doneDate: '',
       tags: [],
     },
   ]);

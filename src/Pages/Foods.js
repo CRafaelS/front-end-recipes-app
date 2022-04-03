@@ -7,6 +7,7 @@ export default function Foods() {
   const divStyle = {
     width: '360px',
   };
+
   return (
     <div style={ divStyle }>
       <Header title="Foods" showButton />

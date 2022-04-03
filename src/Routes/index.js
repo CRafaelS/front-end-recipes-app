@@ -25,9 +25,11 @@ const Routes = () => (
     <Switch>
       <Route path="/profile" component={ Profile } />
       <Route path="/favorite-recipes" component={ FavoriteRecipes } />
-      <DoneRecipesProvider>
-        <Route path="/done-recipes" component={ DoneRecipes } />
-      </DoneRecipesProvider>
+      <Route path="/done-recipes">
+        <DoneRecipesProvider>
+          <DoneRecipes />
+        </DoneRecipesProvider>
+      </Route>
       <Route path="/explore/drinks/ingredients" component={ DrinksIngredients } />
       <Route path="/explore/drinks" component={ DrinksExplorer } />
       <Route path="/explore/foods/nationalities" component={ FoodNacionalities } />
