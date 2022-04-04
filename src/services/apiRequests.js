@@ -33,3 +33,27 @@ export async function requestFirstLetterFromApi(typeOfFood, primeiraLetra) {
     console.log(error);
   }
 }
+
+export async function requesCategoriesFromApi(typeOfCategoy) {
+  try {
+    const response = await fetch(
+      `https://www.${typeOfCategoy}.com/api/json/v1/1/list.php?c=list`,
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function requesClickCategoryFromApi(typeOfCategoy, buttonCategoy) {
+  try {
+    const response = await fetch(
+      `https://www.${typeOfCategoy}.com/api/json/v1/1/filter.php?c=${buttonCategoy}`,
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
