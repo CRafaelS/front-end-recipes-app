@@ -35,7 +35,7 @@ function DoneRecipesProvider({ children }) {
 
   const shareRecipe = (id, type) => {
     setShare(true);
-    copy(`http://localhost:3000/${type === 'food' ? `foods/${id}` : `drinks/${id}`}`);
+    copy(`http://localhost:3000/${type}s/${id}`);
   };
 
   const contextValue = {
