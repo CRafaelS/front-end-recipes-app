@@ -1,5 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import './style.css';
 
 function ExploreButtons() {
   const history = useHistory();
@@ -7,6 +8,7 @@ function ExploreButtons() {
   return (
     <div>
       <button
+        className="Button"
         type="button"
         data-testid="explore-foods"
         onClick={ () => history.push('/explore/foods') }
@@ -14,6 +16,7 @@ function ExploreButtons() {
         Explore Foods
       </button>
       <button
+        className="Button"
         type="button"
         data-testid="explore-drinks"
         onClick={ () => history.push('/explore/drinks') }
