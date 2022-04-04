@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import propTypes from 'prop-types';
+import copy from 'clipboard-copy';
 import shareIcon from '../../images/shareIcon.svg';
 
 function DoneRecipesCard({
+  id,
   name,
   type,
   image,
@@ -13,6 +15,13 @@ function DoneRecipesCard({
   tags,
   index,
 }) {
+  const [isShared, setShare] = useState(false);
+
+  const shareRecipe = () => {
+    setShare(true);
+    copy(`http://localhost:3000/${type === 'food' ? `foods/${id}` : `drinks/${id}`}`);
+  };
+
   return (
     <section className="done-recips-card">
       <img
@@ -37,12 +46,19 @@ function DoneRecipesCard({
       <p data-testid={ `${index}-horizontal-done-date` }>
         {doneDate}
       </p>
-      <button type="button">
-        <img
-          src={ shareIcon }
-          alt="Share Icon"
-          data-testid={ `${index}-horizontal-share-btn` }
-        />
+      <button
+        type="button"
+        onClick={ shareRecipe }
+      >
+        {isShared
+          ? 'Link copied!'
+          : (
+            <img
+              src={ shareIcon }
+              alt="Share Icon"
+              data-testid={ `${index}-horizontal-share-btn` }
+            />
+          )}
       </button>
       {tags.map((tag, tagIndex) => (
         tagIndex < 2
@@ -56,6 +72,7 @@ function DoneRecipesCard({
 }
 
 DoneRecipesCard.propTypes = {
+  id: propTypes.string.isRequired,
   name: propTypes.string.isRequired,
   type: propTypes.string.isRequired,
   image: propTypes.string.isRequired,
