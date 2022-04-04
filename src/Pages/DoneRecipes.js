@@ -11,15 +11,15 @@ function DoneRecipes() {
     <>
       <Header title="Done Recipes" />
       <DoneRecipesButtons />
-      {doneRecipes.map((recipe, index) => (
-        filter === 'all' || filter === recipe.type)
-          && (
-            <DoneRecipesCard
-              key={ recipe.id }
-              index={ index }
-              { ...recipe }
-            />
-          ))}
+      {doneRecipes
+        .filter((recipe) => filter === 'all' || filter === recipe.type)
+        .map((recipe, index) => (
+          <DoneRecipesCard
+            key={ recipe.id }
+            index={ index }
+            { ...recipe }
+          />
+        ))}
     </>
   );
 }
