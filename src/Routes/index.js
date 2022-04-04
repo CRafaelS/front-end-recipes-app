@@ -47,6 +47,7 @@ const Routes = () => (
         <UserProvider>
           <Login />
         </UserProvider>
+      </Route>
       <Route path="*" component={ NotFound } />
     </Switch>
   </MealsAndDrinksProvider>
