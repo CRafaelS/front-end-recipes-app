@@ -68,7 +68,6 @@ export default function HeaderSearchBar() {
       }
       if (drinkData.drinks) {
         redirectToDrinkDetails(drinkData.drinks);
-        console.log(drinkData);
         setDrinks(drinkData);
       }
     }

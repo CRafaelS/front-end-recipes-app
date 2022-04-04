@@ -22,7 +22,7 @@ export default function Foods() {
       });
     };
     fechFoods();
-  }, []);
+  }, [setFoods, setDrinks]);
 
   return (
     <div style={ divStyle }>

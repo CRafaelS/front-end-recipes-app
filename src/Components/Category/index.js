@@ -33,7 +33,7 @@ function Category() {
       }
     };
     fechCategory();
-  }, []);
+  }, [actualPath.pathname]);
 
   const handleCategory = async ({ target }) => {
     const { name } = target;

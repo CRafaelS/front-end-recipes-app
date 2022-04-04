@@ -21,7 +21,7 @@ function Drinks() {
       });
     };
     fechDrinks();
-  }, []);
+  }, [setDrinks, setFoods]);
 
   return (
     <div style={ divStyle }>
