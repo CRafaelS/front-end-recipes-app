@@ -18,13 +18,19 @@ import DoneRecipes from '../Pages/DoneRecipes';
 import FavoriteRecipes from '../Pages/FavoriteRecipes';
 import NotFound from '../Pages/NotFound';
 import UserProvider from '../contexts/userContext/UserProvider';
+import MealsAndDrinksProvider from '../context/MealsAndDrinksProvider';
+import DoneRecipesProvider from '../context/DoneRecipes/DoneRecipesProvider';
 
-function Routes() {
-  return (
+const Routes = () => (
+  <MealsAndDrinksProvider>
     <Switch>
       <Route path="/profile" component={ Profile } />
       <Route path="/favorite-recipes" component={ FavoriteRecipes } />
-      <Route path="/done-recipes" component={ DoneRecipes } />
+      <Route path="/done-recipes">
+        <DoneRecipesProvider>
+          <DoneRecipes />
+        </DoneRecipesProvider>
+      </Route>
       <Route path="/explore/drinks/ingredients" component={ DrinksIngredients } />
       <Route path="/explore/drinks" component={ DrinksExplorer } />
       <Route path="/explore/foods/nationalities" component={ FoodNacionalities } />
@@ -32,17 +38,18 @@ function Routes() {
       <Route path="/explore/foods" component={ FoodsExplorer } />
       <Route path="/explore" component={ Explorer } />
       <Route path="/drinks/:id/in-progress" component={ ProgressDrinkRecipe } />
-      <Route path="/drinks/:id" component={ DrinkDetails } />
+      <Route path="/drinks/:id" render={ (props) => <DrinkDetails { ...props } /> } />
       <Route path="/drinks" component={ Drinks } />
       <Route path="/foods/:id/in-progress" component={ ProgressFoodRecipe } />
-      <Route path="/foods/:id" component={ FoodDetails } />
+      <Route path="/foods/:id" render={ (props) => <FoodDetails { ...props } /> } />
       <Route path="/foods" component={ Foods } />
-      <UserProvider>
-        <Route exact path="/" component={ Login } />
-      </UserProvider>
+      <Route path="/">
+        <UserProvider>
+          <Login />
+        </UserProvider>
       <Route path="*" component={ NotFound } />
     </Switch>
-  );
-}
+  </MealsAndDrinksProvider>
+);
 
 export default Routes;

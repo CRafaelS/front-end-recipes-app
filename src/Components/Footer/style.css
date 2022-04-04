@@ -1,0 +1,11 @@
+.Footer {
+  bottom: 0;
+  position: fixed;
+}
+
+.Footer img {
+  height: 50px;
+  margin-left: 23px;
+  margin-right: 23px;
+  width: 50px;
+}
