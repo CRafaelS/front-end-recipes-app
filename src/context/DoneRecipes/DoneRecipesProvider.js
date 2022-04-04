@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import propTypes from 'prop-types';
+import copy from 'clipboard-copy';
 import doneRecipesContext from '.';
 
 function DoneRecipesProvider({ children }) {
@@ -18,6 +19,7 @@ function DoneRecipesProvider({ children }) {
       tags: [],
     },
   ]);
+  const [isShared, setShare] = useState(false);
 
   useEffect(() => {
     const storagedDoneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
@@ -30,9 +32,16 @@ function DoneRecipesProvider({ children }) {
     localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
   }, [doneRecipes]);
 
+  const shareRecipe = (id, type) => {
+    setShare(true);
+    copy(`http://localhost:3000/${type === 'food' ? `foods/${id}` : `drinks/${id}`}`);
+  };
+
   const contextValue = {
     doneRecipes,
+    isShared,
     setDoneRecipes,
+    shareRecipe,
   };
 
   return (

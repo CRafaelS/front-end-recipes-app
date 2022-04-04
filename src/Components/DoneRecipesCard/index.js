@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import propTypes from 'prop-types';
-import copy from 'clipboard-copy';
 import shareIcon from '../../images/shareIcon.svg';
+import doneRecipesContext from '../../context/DoneRecipes';
 
 function DoneRecipesCard({
   id,
@@ -15,12 +15,7 @@ function DoneRecipesCard({
   tags,
   index,
 }) {
-  const [isShared, setShare] = useState(false);
-
-  const shareRecipe = () => {
-    setShare(true);
-    copy(`http://localhost:3000/${type === 'food' ? `foods/${id}` : `drinks/${id}`}`);
-  };
+  const { isShared, shareRecipe } = useContext(doneRecipesContext);
 
   return (
     <section className="done-recips-card">
@@ -48,7 +43,7 @@ function DoneRecipesCard({
       </p>
       <button
         type="button"
-        onClick={ shareRecipe }
+        onClick={ () => shareRecipe(id, type) }
       >
         {isShared
           ? 'Link copied!'
