@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
-import shareIcon from '../../images/shareIcon.svg';
 import doneRecipesContext from '../../context/DoneRecipes';
+import shareIcon from '../../images/shareIcon.svg';
 
 function DoneRecipesCard({
   id,
@@ -19,11 +20,13 @@ function DoneRecipesCard({
 
   return (
     <section className="done-recips-card">
-      <img
-        src={ image }
-        alt={ name }
-        data-testid={ `${index}-horizontal-image` }
-      />
+      <Link to={ `/${type}s/${id}` }>
+        <img
+          src={ image }
+          alt={ name }
+          data-testid={ `${index}-horizontal-image` }
+        />
+      </Link>
       {type === 'food'
         ? (
           <p data-testid={ `${index}-horizontal-top-text` }>
@@ -35,9 +38,11 @@ function DoneRecipesCard({
             {alcoholicOrNot}
           </p>
         )}
-      <p data-testid={ `${index}-horizontal-name` }>
-        {name}
-      </p>
+      <Link to={ `/${type}s/${id}` }>
+        <p data-testid={ `${index}-horizontal-name` }>
+          {name}
+        </p>
+      </Link>
       <p data-testid={ `${index}-horizontal-done-date` }>
         {doneDate}
       </p>
