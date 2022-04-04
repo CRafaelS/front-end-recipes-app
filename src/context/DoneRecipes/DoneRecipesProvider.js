@@ -20,6 +20,7 @@ function DoneRecipesProvider({ children }) {
     },
   ]);
   const [isShared, setShare] = useState(false);
+  const [filter, setFilter] = useState('all');
 
   useEffect(() => {
     const storagedDoneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
@@ -40,8 +41,10 @@ function DoneRecipesProvider({ children }) {
   const contextValue = {
     doneRecipes,
     isShared,
+    filter,
     setDoneRecipes,
     shareRecipe,
+    setFilter,
   };
 
   return (

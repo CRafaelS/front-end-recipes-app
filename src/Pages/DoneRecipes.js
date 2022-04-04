@@ -5,19 +5,21 @@ import Header from '../Components/Header';
 import doneRecipesContext from '../context/DoneRecipes';
 
 function DoneRecipes() {
-  const { doneRecipes } = useContext(doneRecipesContext);
+  const { doneRecipes, filter } = useContext(doneRecipesContext);
 
   return (
     <>
       <Header title="Done Recipes" />
       <DoneRecipesButtons />
       {doneRecipes.map((recipe, index) => (
-        <DoneRecipesCard
-          key={ recipe.id }
-          index={ index }
-          { ...recipe }
-        />
-      ))}
+        filter === 'all' || filter === recipe.type)
+          && (
+            <DoneRecipesCard
+              key={ recipe.id }
+              index={ index }
+              { ...recipe }
+            />
+          ))}
     </>
   );
 }
