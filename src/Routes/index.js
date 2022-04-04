@@ -17,6 +17,7 @@ import Profile from '../Pages/Profile';
 import DoneRecipes from '../Pages/DoneRecipes';
 import FavoriteRecipes from '../Pages/FavoriteRecipes';
 import NotFound from '../Pages/NotFound';
+import UserProvider from '../contexts/userContext/UserProvider';
 import MealsAndDrinksProvider from '../context/MealsAndDrinksProvider';
 import DoneRecipesProvider from '../context/DoneRecipes/DoneRecipesProvider';
 
@@ -42,7 +43,11 @@ const Routes = () => (
       <Route path="/foods/:id/in-progress" component={ ProgressFoodRecipe } />
       <Route path="/foods/:id" render={ (props) => <FoodDetails { ...props } /> } />
       <Route path="/foods" component={ Foods } />
-      <Route path="/" component={ Login } />
+      <Route path="/">
+        <UserProvider>
+          <Login />
+        </UserProvider>
+      </Route>
       <Route path="*" component={ NotFound } />
     </Switch>
   </MealsAndDrinksProvider>

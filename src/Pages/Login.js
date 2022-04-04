@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Redirect } from 'react-router-dom';
+import userContext from '../contexts/userContext';
+import LoginForm from '../Components/LoginForm';
 
 function Login() {
+  const { isLogged } = useContext(userContext);
+
   return (
-    <div>
-      <h1>Eu sou o Login</h1>
-    </div>
+    isLogged
+      ? <Redirect to="/foods" />
+      : <LoginForm />
   );
 }
+
 export default Login;
