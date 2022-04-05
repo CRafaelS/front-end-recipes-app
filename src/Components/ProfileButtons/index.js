@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 function ProfileButtons() {
+  const history = useHistory();
   return (
     <div className="profile-buttons">
       <Link to="/done-recipes">
@@ -23,6 +24,10 @@ function ProfileButtons() {
       <button
         type="button"
         data-testid="profile-logout-btn"
+        onClick={ () => {
+          localStorage.clear();
+          history.push('/');
+        } }
       >
         Logout
       </button>
