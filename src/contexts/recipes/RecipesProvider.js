@@ -46,6 +46,16 @@ function RecipesProvider({ children }) {
     localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
   }, [doneRecipes]);
 
+  useEffect(() => {
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
+  }, [favoriteRecipes]);
+
+  const removeFavoriteRecipe = (index) => {
+    setFavoriteRecipe((state) => (
+      [...state.slice(0, index), ...state.slice(index + 1)]
+    ));
+  };
+
   const contextValue = {
     doneRecipes,
     favoriteRecipes,
@@ -53,6 +63,7 @@ function RecipesProvider({ children }) {
     setDoneRecipe,
     setFavoriteRecipe,
     setFilter,
+    removeFavoriteRecipe,
   };
 
   return (

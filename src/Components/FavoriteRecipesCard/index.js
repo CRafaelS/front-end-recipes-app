@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
 import copy from 'clipboard-copy';
 import shareIcon from '../../images/shareIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
+import recipesContext from '../../contexts/recipes';
 
 function FavoriteRecipesCard({
   id,
@@ -15,6 +16,7 @@ function FavoriteRecipesCard({
   alcoholicOrNot,
   index,
 }) {
+  const { removeFavoriteRecipe } = useContext(recipesContext);
   const [isShared, setShare] = useState(false);
 
   const shareRecipe = () => {
@@ -63,7 +65,7 @@ function FavoriteRecipesCard({
       </button>
       <button
         type="button"
-        onClick={ shareRecipe }
+        onClick={ () => removeFavoriteRecipe(index) }
       >
         <img
           src={ blackHeartIcon }
