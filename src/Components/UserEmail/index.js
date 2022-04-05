@@ -1,9 +1,9 @@
 import React from 'react';
 
 function UserEmail() {
-  const { email } = JSON.parse(localStorage.getItem('user'));
+  const user = JSON.parse(localStorage.getItem('user'));
   return (
-    <p data-testid="profile-email">{email}</p>
+    <p data-testid="profile-email">{user && user.email}</p>
   );
 }
 
