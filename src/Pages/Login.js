@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import userContext from '../contexts/userContext';
+import userContext from '../contexts/user';
 import LoginForm from '../Components/LoginForm';
 
 function Login() {

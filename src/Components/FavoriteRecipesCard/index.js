@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
 import shareIcon from '../../images/shareIcon.svg';
+import blackHeartIcon from '../../images/blackHeartIcon.svg';
 
-function DoneRecipesCard({
+function FavoriteRecipesCard({
   id,
   name,
   type,
@@ -11,8 +12,6 @@ function DoneRecipesCard({
   nationality,
   category,
   alcoholicOrNot,
-  doneDate,
-  tags,
   index,
 }) {
   const [isShared, setShare] = useState(false);
@@ -23,7 +22,7 @@ function DoneRecipesCard({
   };
 
   return (
-    <section className="done-recipes-card">
+    <section className="favorite-recipes-card">
       <Link to={ `/${type}s/${id}` }>
         <img
           src={ image }
@@ -47,9 +46,6 @@ function DoneRecipesCard({
           {name}
         </p>
       </Link>
-      <p data-testid={ `${index}-horizontal-done-date` }>
-        {doneDate}
-      </p>
       <button
         type="button"
         onClick={ shareRecipe }
@@ -64,18 +60,21 @@ function DoneRecipesCard({
             />
           )}
       </button>
-      {tags.map((tag, tagIndex) => (
-        tagIndex < 2
-          && (
-            <span key={ tag } data-testid={ `${index}-${tag}-horizontal-tag` }>
-              {tag}
-            </span>
-          )))}
+      <button
+        type="button"
+        onClick={ shareRecipe }
+      >
+        <img
+          src={ blackHeartIcon }
+          alt="Favorite Icon"
+          data-testid={ `${index}-horizontal-favorite-btn` }
+        />
+      </button>
     </section>
   );
 }
 
-DoneRecipesCard.propTypes = {
+FavoriteRecipesCard.propTypes = {
   id: propTypes.string.isRequired,
   name: propTypes.string.isRequired,
   type: propTypes.string.isRequired,
@@ -83,9 +82,7 @@ DoneRecipesCard.propTypes = {
   nationality: propTypes.string.isRequired,
   category: propTypes.string.isRequired,
   alcoholicOrNot: propTypes.string.isRequired,
-  doneDate: propTypes.string.isRequired,
-  tags: propTypes.arrayOf(propTypes.string.isRequired).isRequired,
   index: propTypes.number.isRequired,
 };
 
-export default DoneRecipesCard;
+export default FavoriteRecipesCard;

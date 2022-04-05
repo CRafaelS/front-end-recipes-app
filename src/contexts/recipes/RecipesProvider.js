@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import propTypes from 'prop-types';
-import copy from 'clipboard-copy';
-import doneRecipesContext from '.';
+import recipesContext from '.';
 
-function DoneRecipesProvider({ children }) {
-  const { Provider } = doneRecipesContext;
+function RecipesProvider({ children }) {
+  const { Provider } = recipesContext;
 
-  const [doneRecipes, setDoneRecipes] = useState([
+  const [doneRecipes, setDoneRecipe] = useState([
     {
       id: '',
       type: '',
@@ -19,13 +18,27 @@ function DoneRecipesProvider({ children }) {
       tags: [],
     },
   ]);
-  const [isShared, setShare] = useState(false);
+  const [favoriteRecipes, setFavoriteRecipe] = useState([
+    {
+      id: '',
+      type: '',
+      nationality: '',
+      category: '',
+      alcoholicOrNot: '',
+      name: '',
+      image: '',
+    },
+  ]);
   const [filter, setFilter] = useState('all');
 
   useEffect(() => {
     const storagedDoneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+    const storagedFavoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
     if (storagedDoneRecipes) {
-      setDoneRecipes(storagedDoneRecipes);
+      setDoneRecipe(storagedDoneRecipes);
+    }
+    if (storagedFavoriteRecipes) {
+      setFavoriteRecipe(storagedFavoriteRecipes);
     }
   }, []);
 
@@ -33,17 +46,12 @@ function DoneRecipesProvider({ children }) {
     localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
   }, [doneRecipes]);
 
-  const shareRecipe = (id, type) => {
-    setShare(true);
-    copy(`http://localhost:3000/${type}s/${id}`);
-  };
-
   const contextValue = {
     doneRecipes,
-    isShared,
+    favoriteRecipes,
     filter,
-    setDoneRecipes,
-    shareRecipe,
+    setDoneRecipe,
+    setFavoriteRecipe,
     setFilter,
   };
 
@@ -54,8 +62,8 @@ function DoneRecipesProvider({ children }) {
   );
 }
 
-DoneRecipesProvider.propTypes = {
+RecipesProvider.propTypes = {
   children: propTypes.node.isRequired,
 };
 
-export default DoneRecipesProvider;
+export default RecipesProvider;

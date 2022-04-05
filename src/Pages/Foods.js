@@ -3,7 +3,7 @@ import { requestNameFromApi } from '../services/apiRequests';
 import Header from '../Components/Header';
 import Cards from '../Components/Cards';
 import Footer from '../Components/Footer';
-import myContext from '../context/myContext';
+import myContext from '../contexts/myContext';
 import Category from '../Components/Category';
 
 export default function Foods() {

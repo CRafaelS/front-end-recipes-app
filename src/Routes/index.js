@@ -17,19 +17,23 @@ import Profile from '../Pages/Profile';
 import DoneRecipes from '../Pages/DoneRecipes';
 import FavoriteRecipes from '../Pages/FavoriteRecipes';
 import NotFound from '../Pages/NotFound';
-import UserProvider from '../contexts/userContext/UserProvider';
-import MealsAndDrinksProvider from '../context/MealsAndDrinksProvider';
-import DoneRecipesProvider from '../context/DoneRecipes/DoneRecipesProvider';
+import UserProvider from '../contexts/user/UserProvider';
+import MealsAndDrinksProvider from '../contexts/MealsAndDrinksProvider';
+import RecipesProvider from '../contexts/recipes/RecipesProvider';
 
 const Routes = () => (
   <MealsAndDrinksProvider>
     <Switch>
       <Route path="/profile" component={ Profile } />
-      <Route path="/favorite-recipes" component={ FavoriteRecipes } />
+      <Route path="/favorite-recipes">
+        <RecipesProvider>
+          <FavoriteRecipes />
+        </RecipesProvider>
+      </Route>
       <Route path="/done-recipes">
-        <DoneRecipesProvider>
+        <RecipesProvider>
           <DoneRecipes />
-        </DoneRecipesProvider>
+        </RecipesProvider>
       </Route>
       <Route path="/explore/drinks/ingredients" component={ DrinksIngredients } />
       <Route path="/explore/drinks" component={ DrinksExplorer } />
