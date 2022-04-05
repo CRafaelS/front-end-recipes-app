@@ -33,26 +33,19 @@ function FoodDetails() {
       );
       const data = await response.json();
       setDetailedItem(data);
-      console.log(data);
     }
     fetchData();
   }, [setDetailedItem]);
 
   useEffect(() => {
     let arrIngredientsFoods = [];
-    console.log(detailedItem);
     if (detailedItem?.meals?.length > 0) {
-      console.log(detailedItem);
       const arrKeyValues1 = Object.entries(detailedItem.meals[0]);
       arrIngredientsFoods = arrKeyValues1.map(([key, value]) => (
         key.includes('Ingredient') ? value : ''));
       setProgress(arrIngredientsFoods);
-      console.log(progress);
     }
   }, [detailedItem]);
-
-  console.log(detailedItem, 'fora do useEffect');
-  console.log(recommended, 'fora do useEffect recomended');
 
   return (
     <div>
@@ -105,41 +98,39 @@ function FoodDetails() {
               {detailedItem.meals[0].strInstructions}
             </p>
             <h3>Video</h3>
-            <div
-              src="https://www.youtube.com/embed/1IszT_guI08"
+            <iframe
+              title="video"
+              src={ `https://www.youtube.com/embed/${detailedItem.meals[0].strYoutube.split('watch?v=')[1]}` }
               data-testid="video"
-              title="YouTube video player"
-              frameBorder="0"
-              allow="
-          accelerometer;
-          autoplay;
-          clipboard-write;
-          encrypted-media;
-          gyroscope;
-          picture-in-picture
-        "
-              allowFullScreen
             />
             <h3>Recommended</h3>
             <div>
-              {recommended?.drinks.slice(0, MAGIC_NUMBER_6)
-               .map((drink, index) => (
-                <div
-                  className="container"
-                  data-testid={ `${index}-recipe-card` }
-                  key={ index }
-                >
-                  <img
-                    src={ drink.strDrinkThumb }
-                    alt={ drink.strDrink }
-                    data-testid={ `${index}-card-img` }
-                  />
-                  <p
-                  data-testid={ `${index}-card-name` }
-                  >{drink.strDrink}</p>
-                </div>
+              {recommended.drinks.slice(0, MAGIC_NUMBER_6)
+                .map((drink, index) => (
+                  <div
+                    className="container"
+                    data-testid={ `${index}-recomendation-card` }
+                    key={ index }
+                  >
+                    <img
+                      src={ drink.strDrinkThumb }
+                      alt={ drink.strDrink }
+                      data-testid={ `${index}-card-img` }
+                    />
+                    <p
+                      data-testid={ `${index}-card-name` }
+                    >
+                      {drink.strDrink}
+
+                    </p>
+                  </div>
                 ))}
             </div>
+            <input
+              type="button"
+              data-testid="start-recipe-btn"
+              value="Start Recipe"
+            />
           </main>
         </div>
       )}
