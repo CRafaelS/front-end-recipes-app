@@ -17,9 +17,9 @@ import Profile from '../Pages/Profile';
 import DoneRecipes from '../Pages/DoneRecipes';
 import FavoriteRecipes from '../Pages/FavoriteRecipes';
 import NotFound from '../Pages/NotFound';
-import UserProvider from '../contexts/userContext/UserProvider';
-import MealsAndDrinksProvider from '../context/MealsAndDrinksProvider';
-import DoneRecipesProvider from '../context/DoneRecipes/DoneRecipesProvider';
+import UserProvider from '../contexts/user/UserProvider';
+import MealsAndDrinksProvider from '../contexts/MealsAndDrinksProvider';
+import DoneRecipesProvider from '../contexts/DoneRecipes/DoneRecipesProvider';
 
 const Routes = () => (
   <MealsAndDrinksProvider>

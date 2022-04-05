@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import DoneRecipesButtons from '../Components/DoneRecipesButtons';
 import DoneRecipesCard from '../Components/DoneRecipesCard';
 import Header from '../Components/Header';
-import doneRecipesContext from '../context/DoneRecipes';
+import doneRecipesContext from '../contexts/DoneRecipes';
 
 function DoneRecipes() {
   const { doneRecipes, filter } = useContext(doneRecipesContext);

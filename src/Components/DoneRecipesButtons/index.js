@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import doneRecipesContext from '../../context/DoneRecipes';
+import doneRecipesContext from '../../contexts/DoneRecipes';
 
 function DoneRecipesButtons() {
   const { setFilter } = useContext(doneRecipesContext);

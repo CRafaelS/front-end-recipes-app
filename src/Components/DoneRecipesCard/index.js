@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
-import doneRecipesContext from '../../context/DoneRecipes';
+import doneRecipesContext from '../../contexts/DoneRecipes';
 import shareIcon from '../../images/shareIcon.svg';
 
 function DoneRecipesCard({

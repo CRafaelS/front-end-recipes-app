@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import { requestNameFromApi } from '../services/apiRequests';
-import myContext from '../context/myContext';
+import myContext from '../contexts/myContext';
 import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 import Cards from '../Components/Cards';

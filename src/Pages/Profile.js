@@ -1,12 +1,13 @@
 import React from 'react';
 import Footer from '../Components/Footer';
+import UserEmail from '../Components/UserEmail';
 import Header from '../Components/Header';
 
 function Profile() {
   return (
     <>
       <Header title="Profile" />
-      <p data-testid="profile-email">Email</p>
+      <UserEmail />
       <button
         type="button"
         data-testid="profile-done-btn"
@@ -23,7 +24,7 @@ function Profile() {
         type="button"
         data-testid="profile-logout-btn"
       >
-        Done Recipes
+        Logout
       </button>
       <Footer />
     </>
