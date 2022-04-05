@@ -38,19 +38,24 @@ function Food() {
     }
   }, [foods, setProgress]);
 
-  const [ingredients, setIngredients] = useState({ [pageId]: [] });
+  const [ingredients, setIngredients] = useState([]);
 
   function handleChange({ target }) {
     const { value } = target;
     const isChecked = target.checked;
     if (isChecked) {
-      setIngredients({ [pageId]: [...ingredients[pageId], value] });
+      setIngredients([...ingredients, value]);
     } else {
-      const index = ingredients[pageId].indexOf(value);
-      ingredients[pageId].splice(index, 1);
-      setIngredients({ [pageId]: ingredients[pageId] });
+      const index = ingredients.indexOf(value);
+      setIngredients([...ingredients.slice(0, index), ...ingredients.slice(index + 1)]);
     }
   }
+
+  useEffect(() => {
+    const saved = localStorage.getItem('inProgressRecipes');
+    const initialValue = JSON.parse(saved);
+    if (initialValue) { setIngredients(initialValue.meals[pageId]); }
+  }, []);
 
   useEffect(() => {
     const obj = {
@@ -58,18 +63,11 @@ function Food() {
         id: [],
       },
       meals: {
-        [pageId]: ingredients.id,
+        [pageId]: ingredients,
       },
     };
     localStorage.setItem('inProgressRecipes', JSON.stringify(obj));
   }, [ingredients]);
-
-  /* useEffect(() => {
-    const saved = localStorage.getItem('inProgressRecipes');
-    const initialValue = JSON.parse(saved);
-    console.log(initialValue);
-    if (initialValue) { setIngredients(initialValue.meals); }
-  }, []); */
 
   return (
     <div>
