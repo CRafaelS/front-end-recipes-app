@@ -33,3 +33,15 @@ export async function requestFirstLetterFromApi(typeOfFood, primeiraLetra) {
     console.log(error);
   }
 }
+
+export async function requestDetailsFromApi(typeOfFood, ID) {
+  try {
+    const response = await fetch(
+      `https://www.${typeOfFood}.com/api/json/v1/1/search.php?f=${ID}`,
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
