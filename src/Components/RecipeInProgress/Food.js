@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
@@ -7,20 +7,26 @@ import myContext from '../../context/myContext';
 
 function Food() {
   const { foods, setFoods, progress, setProgress } = useContext(myContext);
+
   const location = useLocation();
   const separator = location.pathname.split('/');
+  const pageId = separator[2];
 
-  useEffect(() => {
-    async function fetchData() {
-      const response = await fetch(
-        `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${separator[2]}`,
-      );
-      const data = await response.json();
-      console.log(await data);
-      setFoods(data);
-    }
-    fetchData();
-  }, [separator, setFoods]);
+  useEffect(
+    () => {
+      async function fetchData() {
+        const response = await fetch(
+          `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${separator[2]}`,
+        );
+        const data = await response.json();
+        setFoods(data);
+      }
+      fetchData();
+    },
+    [
+      /* separator, setFoods */
+    ],
+  );
 
   useEffect(() => {
     let arrIngredientsFoods = [];
@@ -31,6 +37,39 @@ function Food() {
       setProgress(arrIngredientsFoods);
     }
   }, [foods, setProgress]);
+
+  const [ingredients, setIngredients] = useState({ [pageId]: [] });
+
+  function handleChange({ target }) {
+    const { value } = target;
+    const isChecked = target.checked;
+    if (isChecked) {
+      setIngredients({ [pageId]: [...ingredients[pageId], value] });
+    } else {
+      const index = ingredients[pageId].indexOf(value);
+      ingredients[pageId].splice(index, 1);
+      setIngredients({ [pageId]: ingredients[pageId] });
+    }
+  }
+
+  useEffect(() => {
+    const obj = {
+      cocktails: {
+        id: [],
+      },
+      meals: {
+        [pageId]: ingredients.id,
+      },
+    };
+    localStorage.setItem('inProgressRecipes', JSON.stringify(obj));
+  }, [ingredients]);
+
+  /* useEffect(() => {
+    const saved = localStorage.getItem('inProgressRecipes');
+    const initialValue = JSON.parse(saved);
+    console.log(initialValue);
+    if (initialValue) { setIngredients(initialValue.meals); }
+  }, []); */
 
   return (
     <div>
@@ -64,7 +103,14 @@ function Food() {
               key={ index }
               htmlFor={ index }
             >
-              <input id={ index } type="checkbox" />
+              <input
+                id={ index }
+                type="checkbox"
+                /* checked=''} */
+                name={ foods.meals.idMeal }
+                value={ food }
+                onChange={ handleChange }
+              />
               {food}
             </label>
           ) : null))}
@@ -82,43 +128,3 @@ function Food() {
 }
 
 export default Food;
-/* obj = {
-prop1: 'value1',
-prop2: 'value2',
-}
-
-arr = Object.entries(obj)
-
-arr.map(([key, value]) => key.includes('prop') ? value : null)  */
-
-/* .map((item, index) => (
-  <label key={ index } htmlFor={ index }>
-    <input id={ index } type="checkbox" />
-    {item.strIngredient1}
-  </label>
-)) */
-
-/* import { useLocation } from "@reach/router"
-
-const useAnalytics = (props) => {
-const location = useLocation();
-
-useEffect(() => {
-ga.send(['pageview', location.pathname]);
-}, [])
-)  */
-
-/* useEffect(() => {
-  const fechCategory = async () => {
-  if (actualPath.pathname === '/foods') {
-  const foodDataCategory = await requesCategoriesFromApi('themealdb');
-  setFoodsCategories(foodDataCategory.meals);
-  }
-
-  if (actualPath.pathname === '/drinks') {
-  const drinkDataCategory = await requesCategoriesFromApi('thecocktaildb');
-  setdrinksCategories(drinkDataCategory.drinks);
-  }
-  };
-  fechCategory();
-  }, []);  */

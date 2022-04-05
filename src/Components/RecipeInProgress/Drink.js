@@ -80,19 +80,3 @@ export default function Drink() {
     </div>
   );
 }
-
-/* obj = {
-prop1: 'value1',
-prop2: 'value2',
-}
-
-arr = Object.entries(obj)
-
-arr.map(([key, value]) => key.includes('prop') ? value : null)  */
-
-/* .map((item, index) => (
-  <label key={ index } htmlFor={ index }>
-    <input id={ index } type="checkbox" />
-    {item.strIngredient1}
-  </label>
-)) */
