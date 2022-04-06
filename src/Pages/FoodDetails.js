@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import myContext from '../context/myContext';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
 function FoodDetails() {
   const {
@@ -37,14 +38,21 @@ function FoodDetails() {
     fetchData();
   }, [setDetailedItem]);
 
+  function isBigEnough(value) {
+    return value;
+  }
+
   useEffect(() => {
     let arrIngredientsFoods = [];
+    let finalIngredients = [];
     if (detailedItem?.meals?.length > 0) {
       const arrKeyValues1 = Object.entries(detailedItem.meals[0]);
       arrIngredientsFoods = arrKeyValues1.map(([key, value]) => (
         key.includes('Ingredient') ? value : ''));
-      setProgress(arrIngredientsFoods);
     }
+
+    finalIngredients = arrIngredientsFoods.filter(isBigEnough);
+    setProgress(finalIngredients);
   }, [detailedItem]);
 
   return (
@@ -69,6 +77,7 @@ function FoodDetails() {
                 <input
                   name="favorite-btn"
                   type="image"
+                  src={ whiteHeartIcon }
                   data-testid="favorite-btn"
                   alt="Favorite Icon"
                 />
@@ -83,12 +92,15 @@ function FoodDetails() {
             <div>
               <ul>
                 {progress.map((value, index) => (
-                  <li
-                    key={ index }
-                    data-testid={ `${index}-ingredient-name-and-measure` }
-                  >
-                    {value}
-                  </li>))}
+                  value
+                    ? (
+                      <li
+                        key={ index }
+                        data-testid={ `${index}-ingredient-name-and-measure` }
+                      >
+                        {value}
+                      </li>) : ''
+                ))}
               </ul>
             </div>
             <h3>Instructions</h3>

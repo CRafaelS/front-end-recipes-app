@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import myContext from '../context/myContext';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
 function FoodDetails() {
   const {
@@ -19,7 +20,7 @@ function FoodDetails() {
   useEffect(() => {
     (async () => {
       const response = await fetch(
-        'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=',
+        'https://www.themealdb.com/api/json/v1/1/search.php?s=',
       );
       const data = await response.json();
       setRecommended(data);
@@ -37,28 +38,38 @@ function FoodDetails() {
     fetchData();
   }, [setDetailedItem]);
 
+  function isBigEnough(value) {
+    return value;
+  }
+
   useEffect(() => {
-    let arrIngredientsFoods = [];
+    let arrIngredientsDrinks = [];
+    let finalIngredients = [];
+    console.log(detailedItem, 'detaildItem');
     if (detailedItem?.drinks?.length > 0) {
       const arrKeyValues1 = Object.entries(detailedItem.drinks[0]);
-      arrIngredientsFoods = arrKeyValues1.map(([key, value]) => (
+      console.log(arrKeyValues1, 'arrKeyValues1');
+      arrIngredientsDrinks = arrKeyValues1.map(([key, value]) => (
         key.includes('Ingredient') ? value : ''));
-      setProgress(arrIngredientsFoods);
+      console.log(arrIngredientsDrinks, 'dentro do if');
     }
+    finalIngredients = arrIngredientsDrinks.filter(isBigEnough);
+    console.log(finalIngredients, 'array final');
+    setProgress(finalIngredients);
   }, [detailedItem]);
 
   return (
     <div>
-      {detailedItem?.drinks.length === 1 && (
+      {detailedItem?.drinks?.length === 1 && (
         <div>
           <img
-            src={ detailedItem.drinks[0].strMealThumb }
-            alt={ detailedItem.drinks[0].strMeal }
+            src={ detailedItem.drinks[0].strDrinkThumb }
+            alt={ detailedItem.drinks[0].strDrink }
             data-testid="recipe-photo"
           />
           <main>
             <div>
-              <h2 data-testid="recipe-title">{ detailedItem.drinks[0].strMeal }</h2>
+              <h2 data-testid="recipe-title">{ detailedItem.drinks[0].strDrink }</h2>
               <div>
                 <input
                   type="image"
@@ -69,6 +80,7 @@ function FoodDetails() {
                 <input
                   name="favorite-btn"
                   type="image"
+                  src={ whiteHeartIcon }
                   data-testid="favorite-btn"
                   alt="Favorite Icon"
                 />
@@ -83,12 +95,15 @@ function FoodDetails() {
             <div>
               <ul>
                 {progress.map((value, index) => (
-                  <li
-                    key={ index }
-                    data-testid={ `${index}-ingredient-name-and-measure` }
-                  >
-                    {value}
-                  </li>))}
+                  value
+                    ? (
+                      <li
+                        key={ index }
+                        data-testid={ `${index}-ingredient-name-and-measure` }
+                      >
+                        {value}
+                      </li>) : ''
+                ))}
               </ul>
             </div>
             <h3>Instructions</h3>
@@ -97,12 +112,6 @@ function FoodDetails() {
             >
               {detailedItem.drinks[0].strInstructions}
             </p>
-            <h3>Video</h3>
-            <iframe
-              title="video"
-              src={ `https://www.youtube.com/embed/${detailedItem.drinks[0].strYoutube.split('watch?v=')[1]}` }
-              data-testid="video"
-            />
             <h3>Recommended</h3>
             <div>
               {recommended.meals.slice(0, MAGIC_NUMBER_6)

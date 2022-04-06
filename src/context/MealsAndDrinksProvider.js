@@ -23,7 +23,10 @@ export default function MealsAndDrinksProvider({ children }) {
     drinks: [],
   });
 
-  const [progress, setProgress] = useState([]);
+  const [progress, setProgress] = useState({
+    ingredients: [],
+    measure: [],
+  });
 
   const context = {
     inputs,
