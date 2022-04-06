@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
-import myContext from '../../context/myContext';
+import myContext from '../../contexts/myContext';
 import {
   requesCategoriesFromApi,
   requesClickCategoryFromApi,
