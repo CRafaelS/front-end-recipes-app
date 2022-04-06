@@ -12,6 +12,8 @@ function FoodDetails() {
     progress,
     recommended,
     setRecommended,
+    measures,
+    setMeasures,
   } = useContext(myContext);
   const MAGIC_NUMBER_6 = 6;
   const location = useLocation();
@@ -44,15 +46,22 @@ function FoodDetails() {
 
   useEffect(() => {
     let arrIngredientsFoods = [];
+    let arrMeasure = [];
     let finalIngredients = [];
+    let finalMeasures = [];
     if (detailedItem?.meals?.length > 0) {
       const arrKeyValues1 = Object.entries(detailedItem.meals[0]);
+      console.log(arrKeyValues1);
       arrIngredientsFoods = arrKeyValues1.map(([key, value]) => (
         key.includes('Ingredient') ? value : ''));
+      arrMeasure = arrKeyValues1.map(([key, value]) => (
+        key.includes('Measure') ? value : ''));
     }
 
     finalIngredients = arrIngredientsFoods.filter(isBigEnough);
+    finalMeasures = arrMeasure.filter(isBigEnough);
     setProgress(finalIngredients);
+    setMeasures(finalMeasures);
   }, [detailedItem]);
 
   return (
@@ -98,7 +107,7 @@ function FoodDetails() {
                         key={ index }
                         data-testid={ `${index}-ingredient-name-and-measure` }
                       >
-                        {value}
+                        {`${value} - ${measures[index]}`}
                       </li>) : ''
                 ))}
               </ul>
@@ -116,7 +125,7 @@ function FoodDetails() {
               data-testid="video"
             />
             <h3>Recommended</h3>
-            <div>
+            <div className="conteiner">
               {recommended.drinks.slice(0, MAGIC_NUMBER_6)
                 .map((drink, index) => (
                   <div
@@ -130,7 +139,7 @@ function FoodDetails() {
                       data-testid={ `${index}-card-img` }
                     />
                     <p
-                      data-testid={ `${index}-card-name` }
+                      data-testid={ `${index}-recomendation-title` }
                     >
                       {drink.strDrink}
 
@@ -142,6 +151,7 @@ function FoodDetails() {
               type="button"
               data-testid="start-recipe-btn"
               value="Start Recipe"
+              className="startButton"
             />
           </main>
         </div>

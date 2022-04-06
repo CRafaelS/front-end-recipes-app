@@ -12,6 +12,8 @@ function FoodDetails() {
     progress,
     recommended,
     setRecommended,
+    measures,
+    setMeasures,
   } = useContext(myContext);
   const MAGIC_NUMBER_6 = 6;
   const location = useLocation();
@@ -23,6 +25,7 @@ function FoodDetails() {
         'https://www.themealdb.com/api/json/v1/1/search.php?s=',
       );
       const data = await response.json();
+      console.log(data);
       setRecommended(data);
     })();
   }, []);
@@ -44,18 +47,22 @@ function FoodDetails() {
 
   useEffect(() => {
     let arrIngredientsDrinks = [];
+    let arrMeasure = [];
     let finalIngredients = [];
-    console.log(detailedItem, 'detaildItem');
+    let finalMeasures = [];
     if (detailedItem?.drinks?.length > 0) {
       const arrKeyValues1 = Object.entries(detailedItem.drinks[0]);
-      console.log(arrKeyValues1, 'arrKeyValues1');
+      console.log(arrKeyValues1);
       arrIngredientsDrinks = arrKeyValues1.map(([key, value]) => (
         key.includes('Ingredient') ? value : ''));
-      console.log(arrIngredientsDrinks, 'dentro do if');
+      arrMeasure = arrKeyValues1.map(([key, value]) => (
+        key.includes('Measure') ? value : ''));
     }
+
     finalIngredients = arrIngredientsDrinks.filter(isBigEnough);
-    console.log(finalIngredients, 'array final');
+    finalMeasures = arrMeasure.filter(isBigEnough);
     setProgress(finalIngredients);
+    setMeasures(finalMeasures);
   }, [detailedItem]);
 
   return (
@@ -89,7 +96,7 @@ function FoodDetails() {
             <p
               data-testid="recipe-category"
             >
-              { detailedItem.drinks[0].strCategory }
+              { detailedItem.drinks[0].strAlcoholic }
             </p>
             <h3>Ingredients</h3>
             <div>
@@ -101,7 +108,7 @@ function FoodDetails() {
                         key={ index }
                         data-testid={ `${index}-ingredient-name-and-measure` }
                       >
-                        {value}
+                        {`${value} - ${measures[index]}`}
                       </li>) : ''
                 ))}
               </ul>
@@ -113,7 +120,7 @@ function FoodDetails() {
               {detailedItem.drinks[0].strInstructions}
             </p>
             <h3>Recommended</h3>
-            <div>
+            <div className="conteiner">
               {recommended.meals.slice(0, MAGIC_NUMBER_6)
                 .map((drink, index) => (
                   <div
@@ -122,14 +129,14 @@ function FoodDetails() {
                     key={ index }
                   >
                     <img
-                      src={ drink.strDrinkThumb }
-                      alt={ drink.strDrink }
+                      src={ drink.strMealThumb }
+                      alt={ drink.strMeal }
                       data-testid={ `${index}-card-img` }
                     />
                     <p
-                      data-testid={ `${index}-card-name` }
+                      data-testid={ `${index}-recomendation-title` }
                     >
-                      {drink.strDrink}
+                      {drink.strMeal}
 
                     </p>
                   </div>
@@ -139,6 +146,7 @@ function FoodDetails() {
               type="button"
               data-testid="start-recipe-btn"
               value="Start Recipe"
+              className="startButton"
             />
           </main>
         </div>

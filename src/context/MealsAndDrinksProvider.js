@@ -23,10 +23,9 @@ export default function MealsAndDrinksProvider({ children }) {
     drinks: [],
   });
 
-  const [progress, setProgress] = useState({
-    ingredients: [],
-    measure: [],
-  });
+  const [progress, setProgress] = useState([]);
+
+  const [measures, setMeasures] = useState([]);
 
   const context = {
     inputs,
@@ -41,6 +40,8 @@ export default function MealsAndDrinksProvider({ children }) {
     setRecommended,
     progress,
     setProgress,
+    measures,
+    setMeasures,
   };
 
   return <myContext.Provider value={ context }>{children}</myContext.Provider>;
