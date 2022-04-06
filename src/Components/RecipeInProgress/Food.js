@@ -23,9 +23,7 @@ function Food() {
       }
       fetchData();
     },
-    [
-      /* separator, setFoods */
-    ],
+    [],
   );
 
   useEffect(() => {
@@ -95,7 +93,7 @@ function Food() {
               alt="share"
             />
           </div>
-          {progress.map((food, index) => (food ? (
+          {progress.filter((item) => item !== '').map((food, index) => (food ? (
             <label
               data-testid={ `${index}-ingredient-step` }
               key={ index }
@@ -104,8 +102,7 @@ function Food() {
               <input
                 id={ index }
                 type="checkbox"
-                /* checked=''} */
-                name={ foods.meals.idMeal }
+                checked={ ingredients.includes(food) }
                 value={ food }
                 onChange={ handleChange }
               />

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
@@ -7,8 +7,10 @@ import myContext from '../../context/myContext';
 
 export default function Drink() {
   const { drinks, setDrinks, progress, setProgress } = useContext(myContext);
+
   const location = useLocation();
   const separator = location.pathname.split('/');
+  const pageId = separator[2];
 
   useEffect(() => {
     async function fetchData() {
@@ -16,11 +18,10 @@ export default function Drink() {
         `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${separator[2]}`,
       );
       const data = await response.json();
-      console.log(await data);
       setDrinks(data);
     }
     fetchData();
-  }, [separator, setDrinks]);
+  }, []);
 
   useEffect(() => {
     let arrIngredientsFoods = [];
@@ -31,6 +32,42 @@ export default function Drink() {
       setProgress(arrIngredientsFoods);
     }
   }, [drinks, setProgress]);
+
+  const [ingredients, setIngredients] = useState([]);
+
+  function handleChange({ target }) {
+    const { value } = target;
+    const isChecked = target.checked;
+    if (isChecked) {
+      setIngredients([...ingredients, value]);
+    } else {
+      const index = ingredients.indexOf(value);
+      setIngredients([
+        ...ingredients.slice(0, index),
+        ...ingredients.slice(index + 1),
+      ]);
+    }
+  }
+
+  useEffect(() => {
+    const saved = localStorage.getItem('inProgressRecipes');
+    const initialValue = JSON.parse(saved);
+    if (initialValue) {
+      setIngredients(initialValue.cocktails[pageId]);
+    }
+  }, []);
+
+  useEffect(() => {
+    const obj = {
+      cocktails: {
+        [pageId]: ingredients,
+      },
+      meals: {
+        id: [],
+      },
+    };
+    localStorage.setItem('inProgressRecipes', JSON.stringify(obj));
+  }, [ingredients]);
 
   return (
     <div>
@@ -58,16 +95,24 @@ export default function Drink() {
               alt="share"
             />
           </div>
-          {progress.map((item, index) => (item ? (
-            <label
-              data-testid={ `${index}-ingredient-step` }
-              key={ index }
-              htmlFor={ index }
-            >
-              <input id={ index } type="checkbox" />
-              {item}
-            </label>
-          ) : null))}
+          {progress
+            .filter((item) => item !== '')
+            .map((drink, index) => (drink ? (
+              <label
+                data-testid={ `${index}-ingredient-step` }
+                key={ index }
+                htmlFor={ index }
+              >
+                <input
+                  id={ index }
+                  type="checkbox"
+                  checked={ ingredients.includes(drink) }
+                  value={ drink }
+                  onChange={ handleChange }
+                />
+                {drink}
+              </label>
+            ) : null))}
           <p data-testid="recipe-category">{drinks.drinks[0].strCategory}</p>
           <p data-testid="instructions">{drinks.drinks[0].strInstructions}</p>
           <div>
