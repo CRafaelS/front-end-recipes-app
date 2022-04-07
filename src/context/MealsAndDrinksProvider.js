@@ -23,13 +23,15 @@ export default function MealsAndDrinksProvider({ children }) {
     drinks: [],
   });
 
-  const [isDone, setDone] = useState();
+  const [isDone, setDone] = useState(false);
 
   const [progress, setProgress] = useState([]);
 
   const [ingredientes, setIngredientes] = useState([]);
 
   const [measures, setMeasures] = useState([]);
+
+  const [continueRecipe, setContinueRecipe] = useState([]);
 
   const context = {
     inputs,
@@ -50,6 +52,8 @@ export default function MealsAndDrinksProvider({ children }) {
     setDone,
     ingredientes,
     setIngredientes,
+    continueRecipe,
+    setContinueRecipe,
   };
 
   return <myContext.Provider value={ context }>{children}</myContext.Provider>;

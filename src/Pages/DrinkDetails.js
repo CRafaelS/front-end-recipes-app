@@ -17,6 +17,8 @@ function FoodDetails() {
     setMeasures,
     isDone,
     setDone,
+    continueRecipe,
+    setContinueRecipe,
   } = useContext(myContext);
   const MAGIC_NUMBER_6 = 6;
   const history = useHistory();
@@ -48,7 +50,7 @@ function FoodDetails() {
     if (detailedItem?.drinks?.length > 0) {
       setDone(getDoneRecipes(detailedItem.drinks[0].idDrink));
 
-      setProgress(getDrinksInProgress(recipe[0].idDrink));
+      setContinueRecipe(getDrinksInProgress(recipe[0].idDrink));
     }
   }, []);
 
@@ -57,7 +59,8 @@ function FoodDetails() {
   }
 
   useEffect(() => {
-    if (detailedItem?.drinks?.length > 0) {
+    if (detailedItem > 0) {
+      console.log(detailedItem);
       console.log(detailedItem.Drinks);
       setDone(getDoneRecipes(detailedItem.Drinks[0].idDrink));
 
@@ -169,7 +172,7 @@ function FoodDetails() {
                 onClick={ () => history
                   .push(`${detailedItem.drinks[0].idDrink}/in-progress`) }
               >
-                {progress ? 'Continue Recipe' : 'Start Recipe'}
+                {continueRecipe ? 'Continue Recipe' : 'Start Recipe'}
               </button>
             )}
           </main>

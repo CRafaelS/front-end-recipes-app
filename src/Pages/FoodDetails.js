@@ -46,7 +46,7 @@ function FoodDetails() {
       setDetailedItem(data);
     }
     fetchData();
-  }, [setDetailedItem]);
+  });
 
   useEffect(() => {
     if (detailedItem.meals[0] && detailedItem.meals[0].length > 0) {
