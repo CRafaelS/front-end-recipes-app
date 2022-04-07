@@ -13,7 +13,7 @@ function Food() {
     setFoods,
     progress,
     setProgress,
-    saveRecipeInState,
+    saveRecipeFoodInState,
     handleChangeCheck,
     ingredients,
     setIngredients, favoriteRecipes,
@@ -71,8 +71,6 @@ function Food() {
     copy(`http://localhost:3000/foods/${pageId}`);
   };
 
-  console.log(favoriteRecipes);
-
   return (
     <div>
       {progress.length && (
@@ -98,7 +96,7 @@ function Food() {
                 />
               )}
             </button>
-            <button type="button" onClick={ () => saveRecipeInState(pageId) }>
+            <button type="button" onClick={ () => saveRecipeFoodInState(pageId) }>
               <img
                 data-testid="favorite-btn"
                 className="icon-rip"

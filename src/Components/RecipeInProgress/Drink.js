@@ -3,11 +3,21 @@ import { useLocation } from 'react-router-dom';
 import copy from 'clipboard-copy';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import './style.css';
 import myContext from '../../context/myContext';
 
 export default function Drink() {
-  const { drinks, setDrinks, progress, setProgress } = useContext(myContext);
+  const {
+    drinks,
+    setDrinks,
+    progress,
+    setProgress,
+    saveRecipeDrinkInState,
+    handleChangeCheck,
+    ingredients,
+    setIngredients, favoriteRecipes,
+  } = useContext(myContext);
 
   const location = useLocation();
   const separator = location.pathname.split('/');
@@ -34,22 +44,6 @@ export default function Drink() {
     }
   }, [drinks, setProgress]);
 
-  const [ingredients, setIngredients] = useState([]);
-
-  function handleChange({ target }) {
-    const { value } = target;
-    const isChecked = target.checked;
-    if (isChecked) {
-      setIngredients([...ingredients, value]);
-    } else {
-      const index = ingredients.indexOf(value);
-      setIngredients([
-        ...ingredients.slice(0, index),
-        ...ingredients.slice(index + 1),
-      ]);
-    }
-  }
-
   useEffect(() => {
     const saved = localStorage.getItem('inProgressRecipes');
     const initialValue = JSON.parse(saved);
@@ -70,7 +64,6 @@ export default function Drink() {
     localStorage.setItem('inProgressRecipes', JSON.stringify(obj));
   }, [ingredients]);
 
-  /* const { removeFavoriteRecipe } = useContext(recipesContext); */
   const [isShared, setShare] = useState(false);
 
   const shareRecipe = () => {
@@ -105,15 +98,12 @@ export default function Drink() {
                     alt="share"
                   />)}
             </button>
-            <button
-              type="button"
-              onClick={ shareRecipe }
-            >
+            <button type="button" onClick={ () => saveRecipeDrinkInState(pageId) }>
               <img
                 data-testid="favorite-btn"
                 className="icon-rip"
-                src={ whiteHeartIcon }
-                alt="share"
+                src={ favoriteRecipes.length > 0 ? blackHeartIcon : whiteHeartIcon }
+                alt="favorite"
               />
             </button>
           </div>
@@ -130,7 +120,7 @@ export default function Drink() {
                   type="checkbox"
                   checked={ ingredients.includes(drink) }
                   value={ drink }
-                  onChange={ handleChange }
+                  onChange={ handleChangeCheck }
                 />
                 {drink}
               </label>

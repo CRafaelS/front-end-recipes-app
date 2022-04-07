@@ -41,7 +41,7 @@ export default function MealsAndDrinksProvider({ children }) {
   const [favoriteRecipes, setFavoriteRecipe] = useState(
     savedRecipeFromLocalStorage,
   );
-  const saveRecipeInState = (id) => {
+  const saveRecipeFoodInState = (id) => {
     if (!favoriteRecipes.some((item) => item.id === id)) {
       const obj = {
         id: foods.meals[0].idMeal,
@@ -51,6 +51,21 @@ export default function MealsAndDrinksProvider({ children }) {
         alcoholicOrNot: '',
         name: foods.meals[0].strMeal,
         image: foods.meals[0].strMealThumb,
+      };
+      setFavoriteRecipe([...favoriteRecipes, obj]);
+    } else { setFavoriteRecipe(favoriteRecipes.filter((item) => item.id !== id)); }
+  };
+
+  const saveRecipeDrinkInState = (id) => {
+    if (!favoriteRecipes.some((item) => item.id === id)) {
+      const obj = {
+        id: drinks.drinks[0].idDrink,
+        type: 'drink',
+        nationality: '',
+        category: drinks.drinks[0].strCategory,
+        alcoholicOrNot: drinks.drinks[0].strAlcoholic,
+        name: drinks.drinks[0].strDrink,
+        image: drinks.drinks[0].strDrinkThumb,
       };
       setFavoriteRecipe([...favoriteRecipes, obj]);
     } else { setFavoriteRecipe(favoriteRecipes.filter((item) => item.id !== id)); }
@@ -71,7 +86,8 @@ export default function MealsAndDrinksProvider({ children }) {
     setProgress,
     favoriteRecipes,
     setFavoriteRecipe,
-    saveRecipeInState,
+    saveRecipeFoodInState,
+    saveRecipeDrinkInState,
     handleChangeCheck,
     ingredients,
     setIngredients,
