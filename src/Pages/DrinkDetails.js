@@ -1,8 +1,9 @@
 import React, { useEffect, useContext } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import myContext from '../context/myContext';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import { getDoneRecipes, getDrinksInProgress } from '../services/apiRequests';
 
 function FoodDetails() {
   const {
@@ -14,8 +15,11 @@ function FoodDetails() {
     setRecommended,
     measures,
     setMeasures,
+    isDone,
+    setDone,
   } = useContext(myContext);
   const MAGIC_NUMBER_6 = 6;
+  const history = useHistory();
   const location = useLocation();
   const separator = location.pathname.split('/');
 
@@ -25,7 +29,6 @@ function FoodDetails() {
         'https://www.themealdb.com/api/json/v1/1/search.php?s=',
       );
       const data = await response.json();
-      console.log(data);
       setRecommended(data);
     })();
   }, []);
@@ -41,9 +44,26 @@ function FoodDetails() {
     fetchData();
   }, [setDetailedItem]);
 
+  useEffect(() => {
+    if (detailedItem?.drinks?.length > 0) {
+      setDone(getDoneRecipes(detailedItem.drinks[0].idDrink));
+
+      setProgress(getDrinksInProgress(recipe[0].idDrink));
+    }
+  }, []);
+
   function isBigEnough(value) {
     return value;
   }
+
+  useEffect(() => {
+    if (detailedItem?.drinks?.length > 0) {
+      console.log(detailedItem.Drinks);
+      setDone(getDoneRecipes(detailedItem.Drinks[0].idDrink));
+
+      setProgress(getDrinksInProgress(detailedItem.Drinks[0].idDrink));
+    }
+  }, []);
 
   useEffect(() => {
     let arrIngredientsDrinks = [];
@@ -52,7 +72,6 @@ function FoodDetails() {
     let finalMeasures = [];
     if (detailedItem?.drinks?.length > 0) {
       const arrKeyValues1 = Object.entries(detailedItem.drinks[0]);
-      console.log(arrKeyValues1);
       arrIngredientsDrinks = arrKeyValues1.map(([key, value]) => (
         key.includes('Ingredient') ? value : ''));
       arrMeasure = arrKeyValues1.map(([key, value]) => (
@@ -142,12 +161,17 @@ function FoodDetails() {
                   </div>
                 ))}
             </div>
-            <input
-              type="button"
-              data-testid="start-recipe-btn"
-              value="Start Recipe"
-              className="startButton"
-            />
+            { isDone ? '' : (
+              <button
+                className="startButton"
+                type="button"
+                data-testid="start-recipe-btn"
+                onClick={ () => history
+                  .push(`${detailedItem.drinks[0].idDrink}/in-progress`) }
+              >
+                {progress ? 'Continue Recipe' : 'Start Recipe'}
+              </button>
+            )}
           </main>
         </div>
       )}

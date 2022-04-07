@@ -1,21 +1,28 @@
 import React, { useEffect, useContext } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import myContext from '../context/myContext';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import { getDoneRecipes, getMealsInProgress } from '../services/apiRequests';
 
 function FoodDetails() {
   const {
     detailedItem,
     setDetailedItem,
-    setProgress,
-    progress,
+    setIngredientes,
+    ingredientes,
     recommended,
     setRecommended,
     measures,
     setMeasures,
+    isDone,
+    setDone,
+    progress,
+    setProgress,
   } = useContext(myContext);
+
   const MAGIC_NUMBER_6 = 6;
+  const history = useHistory();
   const location = useLocation();
   const separator = location.pathname.split('/');
 
@@ -35,14 +42,31 @@ function FoodDetails() {
         `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${separator[2]}`,
       );
       const data = await response.json();
+      console.log(data);
       setDetailedItem(data);
     }
     fetchData();
   }, [setDetailedItem]);
 
+  useEffect(() => {
+    if (detailedItem.meals[0] && detailedItem.meals[0].length > 0) {
+      setDone(getDoneRecipes(detailedItem.meals[0].idDrink));
+
+      setProgress(getMealsInProgress(recipe[0].idDrink));
+    }
+  }, []);
+
   function isBigEnough(value) {
     return value;
   }
+
+  useEffect(() => {
+    if (detailedItem.meals[0] && detailedItem.meals[0].length > 0) {
+      setDone(getDoneRecipes(detailedItem.meals[0].idDrink));
+
+      setProgress(getDrinksInProgress(detailedItem.meals[0].idDrink));
+    }
+  }, []);
 
   useEffect(() => {
     let arrIngredientsFoods = [];
@@ -51,7 +75,6 @@ function FoodDetails() {
     let finalMeasures = [];
     if (detailedItem?.meals?.length > 0) {
       const arrKeyValues1 = Object.entries(detailedItem.meals[0]);
-      console.log(arrKeyValues1);
       arrIngredientsFoods = arrKeyValues1.map(([key, value]) => (
         key.includes('Ingredient') ? value : ''));
       arrMeasure = arrKeyValues1.map(([key, value]) => (
@@ -60,7 +83,7 @@ function FoodDetails() {
 
     finalIngredients = arrIngredientsFoods.filter(isBigEnough);
     finalMeasures = arrMeasure.filter(isBigEnough);
-    setProgress(finalIngredients);
+    setIngredientes(finalIngredients);
     setMeasures(finalMeasures);
   }, [detailedItem]);
 
@@ -100,7 +123,7 @@ function FoodDetails() {
             <h3>Ingredients</h3>
             <div>
               <ul>
-                {progress.map((value, index) => (
+                {ingredientes.map((value, index) => (
                   value
                     ? (
                       <li
@@ -147,12 +170,17 @@ function FoodDetails() {
                   </div>
                 ))}
             </div>
-            <input
-              type="button"
-              data-testid="start-recipe-btn"
-              value="Start Recipe"
-              className="startButton"
-            />
+            { isDone ? '' : (
+              <button
+                className="startButton"
+                type="button"
+                data-testid="start-recipe-btn"
+                onClick={ () => history
+                  .push(`${detailedItem.meals[0].idMeal}/in-progress`) }
+              >
+                {progress ? 'Continue Recipe' : 'Start Recipe'}
+              </button>
+            )}
           </main>
         </div>
       )}
