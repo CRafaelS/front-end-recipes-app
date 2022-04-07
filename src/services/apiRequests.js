@@ -57,3 +57,27 @@ export async function requesClickCategoryFromApi(typeOfCategoy, buttonCategoy) {
     console.log(error);
   }
 }
+
+export async function requesIgredientsFromApi(typeOfIdredients) {
+  try {
+    const response = await fetch(
+      `https://www.${typeOfIdredients}.com/api/json/v1/1/list.php?i=list`,
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function requesClickIngredientFromApi(typeOfCategoy, buttonIngredient) {
+  try {
+    const response = await fetch(
+      `https://www.${typeOfCategoy}.com/api/json/v1/1/filter.php?i=${buttonIngredient}`,
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
