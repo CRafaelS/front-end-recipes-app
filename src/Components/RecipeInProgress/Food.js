@@ -1,30 +1,38 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import copy from 'clipboard-copy';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import './style.css';
 import myContext from '../../context/myContext';
 
 function Food() {
-  const { foods, setFoods, progress, setProgress } = useContext(myContext);
+  const {
+    foods,
+    setFoods,
+    progress,
+    setProgress,
+    saveRecipeInState,
+    handleChangeCheck,
+    ingredients,
+    setIngredients, favoriteRecipes,
+  } = useContext(myContext);
 
   const location = useLocation();
   const separator = location.pathname.split('/');
   const pageId = separator[2];
 
-  useEffect(
-    () => {
-      async function fetchData() {
-        const response = await fetch(
-          `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${separator[2]}`,
-        );
-        const data = await response.json();
-        setFoods(data);
-      }
-      fetchData();
-    },
-    [],
-  );
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch(
+        `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${separator[2]}`,
+      );
+      const data = await response.json();
+      setFoods(data);
+    }
+    fetchData();
+  }, [setFoods]);
 
   useEffect(() => {
     let arrIngredientsFoods = [];
@@ -36,24 +44,13 @@ function Food() {
     }
   }, [foods, setProgress]);
 
-  const [ingredients, setIngredients] = useState([]);
-
-  function handleChange({ target }) {
-    const { value } = target;
-    const isChecked = target.checked;
-    if (isChecked) {
-      setIngredients([...ingredients, value]);
-    } else {
-      const index = ingredients.indexOf(value);
-      setIngredients([...ingredients.slice(0, index), ...ingredients.slice(index + 1)]);
-    }
-  }
-
   useEffect(() => {
     const saved = localStorage.getItem('inProgressRecipes');
     const initialValue = JSON.parse(saved);
-    if (initialValue) { setIngredients(initialValue.meals[pageId]); }
-  }, []);
+    if (initialValue) {
+      setIngredients(initialValue.meals[pageId]);
+    }
+  }, [pageId, setIngredients]);
 
   useEffect(() => {
     const obj = {
@@ -65,7 +62,16 @@ function Food() {
       },
     };
     localStorage.setItem('inProgressRecipes', JSON.stringify(obj));
-  }, [ingredients]);
+  }, [ingredients, pageId]);
+
+  const [isShared, setShare] = useState(false);
+
+  const shareRecipe = () => {
+    setShare(true);
+    copy(`http://localhost:3000/foods/${pageId}`);
+  };
+
+  console.log(favoriteRecipes);
 
   return (
     <div>
@@ -80,35 +86,45 @@ function Food() {
           <br />
           <p data-testid="recipe-title">{foods.meals[0].strMeal}</p>
           <div className="icon-container">
-            <img
-              data-testid="share-btn"
-              className="icon-rip"
-              src={ shareIcon }
-              alt="share"
-            />
-            <img
-              data-testid="favorite-btn"
-              className="icon-rip"
-              src={ whiteHeartIcon }
-              alt="share"
-            />
-          </div>
-          {progress.filter((item) => item !== '').map((food, index) => (food ? (
-            <label
-              data-testid={ `${index}-ingredient-step` }
-              key={ index }
-              htmlFor={ index }
-            >
-              <input
-                id={ index }
-                type="checkbox"
-                checked={ ingredients.includes(food) }
-                value={ food }
-                onChange={ handleChange }
+            <button type="button" onClick={ shareRecipe }>
+              {isShared ? (
+                'Link copied!'
+              ) : (
+                <img
+                  data-testid="share-btn"
+                  className="icon-rip"
+                  src={ shareIcon }
+                  alt="share"
+                />
+              )}
+            </button>
+            <button type="button" onClick={ () => saveRecipeInState(pageId) }>
+              <img
+                data-testid="favorite-btn"
+                className="icon-rip"
+                src={ favoriteRecipes.length > 0 ? blackHeartIcon : whiteHeartIcon }
+                alt="favorite"
               />
-              {food}
-            </label>
-          ) : null))}
+            </button>
+          </div>
+          {progress
+            .filter((item) => item !== '' && item !== null)
+            .map((food, index) => (
+              <label
+                data-testid={ `${index}-ingredient-step` }
+                key={ index }
+                htmlFor={ index }
+              >
+                <input
+                  id={ index }
+                  type="checkbox"
+                  checked={ ingredients.includes(food) }
+                  value={ food }
+                  onChange={ handleChangeCheck }
+                />
+                {food}
+              </label>
+            ))}
           <p data-testid="recipe-category">{foods.meals[0].strCategory}</p>
           <p data-testid="instructions">{foods.meals[0].strInstructions}</p>
           <div>

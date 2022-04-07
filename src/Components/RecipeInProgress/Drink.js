@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import copy from 'clipboard-copy';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import './style.css';
@@ -69,6 +70,14 @@ export default function Drink() {
     localStorage.setItem('inProgressRecipes', JSON.stringify(obj));
   }, [ingredients]);
 
+  /* const { removeFavoriteRecipe } = useContext(recipesContext); */
+  const [isShared, setShare] = useState(false);
+
+  const shareRecipe = () => {
+    setShare(true);
+    copy(`http://localhost:3000/drinks/${pageId}`);
+  };
+
   return (
     <div>
       {progress.length && (
@@ -82,18 +91,31 @@ export default function Drink() {
           <br />
           <p data-testid="recipe-title">{drinks.drinks[0].strDrink}</p>
           <div className="icon-container">
-            <img
-              data-testid="share-btn"
-              className="icon-rip"
-              src={ shareIcon }
-              alt="share"
-            />
-            <img
-              data-testid="favorite-btn"
-              className="icon-rip"
-              src={ whiteHeartIcon }
-              alt="share"
-            />
+            <button
+              type="button"
+              onClick={ shareRecipe }
+            >
+              {isShared
+                ? 'Link copied!'
+                : (
+                  <img
+                    data-testid="share-btn"
+                    className="icon-rip"
+                    src={ shareIcon }
+                    alt="share"
+                  />)}
+            </button>
+            <button
+              type="button"
+              onClick={ shareRecipe }
+            >
+              <img
+                data-testid="favorite-btn"
+                className="icon-rip"
+                src={ whiteHeartIcon }
+                alt="share"
+              />
+            </button>
           </div>
           {progress
             .filter((item) => item !== '')
