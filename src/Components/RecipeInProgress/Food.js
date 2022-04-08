@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import copy from 'clipboard-copy';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
@@ -21,6 +21,7 @@ function Food() {
   } = useContext(myContext);
 
   const location = useLocation();
+  const history = useHistory();
   const separator = location.pathname.split('/');
   const pageId = separator[2];
 
@@ -132,6 +133,7 @@ function Food() {
               data-testid="finish-recipe-btn"
               type="button"
               disabled={ progress.length !== ingredients.length }
+              onClick={ () => history.push('/done-recipes') }
             >
               Finish Recipe
             </button>

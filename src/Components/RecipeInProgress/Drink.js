@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import copy from 'clipboard-copy';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
@@ -21,6 +21,7 @@ export default function Drink() {
   } = useContext(myContext);
 
   const location = useLocation();
+  const history = useHistory();
   const separator = location.pathname.split('/');
   const pageId = separator[2];
 
@@ -33,7 +34,7 @@ export default function Drink() {
       setDrinks(data);
     }
     fetchData();
-  }, []);
+  }, [setDrinks, separator]);
 
   useEffect(() => {
     let arrIngredientsFoods = [];
@@ -136,6 +137,7 @@ export default function Drink() {
               data-testid="finish-recipe-btn"
               type="button"
               disabled={ progress.length !== ingredients.length }
+              onClick={ () => history.push('/done-recipes') }
             >
               Finish Recipe
             </button>
