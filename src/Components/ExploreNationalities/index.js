@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import myContext from '../../contexts/myContext';
 import {
   requesNationalitiesFromApi,
-  requestNameFromApi } from '../../services/apiRequests';
+  requestNameFromApi,
+  requestRecipeByNationalities } from '../../services/apiRequests';
 
 function ExploreNationalities() {
   const [nationalities, setnationalities] = useState([]);
@@ -25,9 +26,10 @@ function ExploreNationalities() {
     fechFoods();
   }, [setFoods]);
 
-  const handleNationality = ({ target }) => {
+  const handleNationality = async ({ target }) => {
     const { value } = target;
-    console.log(value);
+    const recipeByNationality = await requestRecipeByNationalities(value);
+    setFoods(recipeByNationality);
   };
 
   return (

@@ -69,3 +69,15 @@ export async function requesNationalitiesFromApi() {
     console.log(error);
   }
 }
+
+export async function requestRecipeByNationalities(nationality) {
+  try {
+    const response = await fetch(
+      `https://www.themealdb.com/api/json/v1/1/filter.php?a=${nationality}`,
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
