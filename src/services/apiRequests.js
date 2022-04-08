@@ -57,3 +57,15 @@ export async function requesClickCategoryFromApi(typeOfCategoy, buttonCategoy) {
     console.log(error);
   }
 }
+
+export async function requesNationalitiesFromApi() {
+  try {
+    const response = await fetch(
+      'https://www.themealdb.com/api/json/v1/1/list.php?a=list',
+    );
+    const data = await response.json();
+    return data.meals;
+  } catch (error) {
+    console.log(error);
+  }
+}
