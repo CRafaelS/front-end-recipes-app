@@ -16,7 +16,8 @@ export default function Drink() {
     saveRecipeDrinkInState,
     handleChangeCheck,
     ingredients,
-    setIngredients, favoriteRecipes,
+    setIngredients,
+    favoriteRecipes,
   } = useContext(myContext);
 
   const location = useLocation();
@@ -38,8 +39,10 @@ export default function Drink() {
     let arrIngredientsFoods = [];
     if (drinks.drinks[0]) {
       const arrKeyValues1 = Object.entries(drinks.drinks[0]);
-      arrIngredientsFoods = arrKeyValues1.map(([key, value]) => (
-        key.includes('Ingredient') ? value : ''));
+      arrIngredientsFoods = arrKeyValues1
+        .map(([key, value]) => (key.includes('Ingredient') ? value : ''))
+        .filter((item) => item !== '' && item !== null);
+      setProgress(arrIngredientsFoods);
       setProgress(arrIngredientsFoods);
     }
   }, [drinks, setProgress]);
@@ -50,7 +53,7 @@ export default function Drink() {
     if (initialValue) {
       setIngredients(initialValue.cocktails[pageId]);
     }
-  }, []);
+  }, [pageId, setIngredients]);
 
   useEffect(() => {
     const obj = {
@@ -62,7 +65,7 @@ export default function Drink() {
       },
     };
     localStorage.setItem('inProgressRecipes', JSON.stringify(obj));
-  }, [ingredients]);
+  }, [ingredients, pageId]);
 
   const [isShared, setShare] = useState(false);
 
@@ -84,51 +87,56 @@ export default function Drink() {
           <br />
           <p data-testid="recipe-title">{drinks.drinks[0].strDrink}</p>
           <div className="icon-container">
+            <button type="button" onClick={ shareRecipe }>
+              {isShared ? (
+                'Link copied!'
+              ) : (
+                <img
+                  data-testid="share-btn"
+                  className="icon-rip"
+                  src={ shareIcon }
+                  alt="share"
+                />
+              )}
+            </button>
             <button
               type="button"
-              onClick={ shareRecipe }
+              onClick={ () => saveRecipeDrinkInState(pageId) }
             >
-              {isShared
-                ? 'Link copied!'
-                : (
-                  <img
-                    data-testid="share-btn"
-                    className="icon-rip"
-                    src={ shareIcon }
-                    alt="share"
-                  />)}
-            </button>
-            <button type="button" onClick={ () => saveRecipeDrinkInState(pageId) }>
               <img
                 data-testid="favorite-btn"
                 className="icon-rip"
-                src={ favoriteRecipes.length > 0 ? blackHeartIcon : whiteHeartIcon }
+                src={
+                  favoriteRecipes.length > 0 ? blackHeartIcon : whiteHeartIcon
+                }
                 alt="favorite"
               />
             </button>
           </div>
-          {progress
-            .filter((item) => item !== '')
-            .map((drink, index) => (drink ? (
-              <label
-                data-testid={ `${index}-ingredient-step` }
-                key={ index }
-                htmlFor={ index }
-              >
-                <input
-                  id={ index }
-                  type="checkbox"
-                  checked={ ingredients.includes(drink) }
-                  value={ drink }
-                  onChange={ handleChangeCheck }
-                />
-                {drink}
-              </label>
-            ) : null))}
+          {progress.map((drink, index) => (drink ? (
+            <label
+              data-testid={ `${index}-ingredient-step` }
+              key={ index }
+              htmlFor={ index }
+            >
+              <input
+                id={ index }
+                type="checkbox"
+                checked={ ingredients.includes(drink) }
+                value={ drink }
+                onChange={ handleChangeCheck }
+              />
+              {drink}
+            </label>
+          ) : null))}
           <p data-testid="recipe-category">{drinks.drinks[0].strCategory}</p>
           <p data-testid="instructions">{drinks.drinks[0].strInstructions}</p>
           <div>
-            <button data-testid="finish-recipe-btn" type="button">
+            <button
+              data-testid="finish-recipe-btn"
+              type="button"
+              disabled={ progress.length !== ingredients.length }
+            >
               Finish Recipe
             </button>
           </div>

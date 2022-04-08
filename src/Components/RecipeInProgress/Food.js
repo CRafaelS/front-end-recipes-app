@@ -16,7 +16,8 @@ function Food() {
     saveRecipeFoodInState,
     handleChangeCheck,
     ingredients,
-    setIngredients, favoriteRecipes,
+    setIngredients,
+    favoriteRecipes,
   } = useContext(myContext);
 
   const location = useLocation();
@@ -32,14 +33,15 @@ function Food() {
       setFoods(data);
     }
     fetchData();
-  }, [setFoods]);
+  }, [setFoods, separator]);
 
   useEffect(() => {
     let arrIngredientsFoods = [];
     if (foods.meals[0]) {
       const arrKeyValues1 = Object.entries(foods.meals[0]);
-      arrIngredientsFoods = arrKeyValues1.map(([key, value]) => (
-        key.includes('Ingredient') ? value : ''));
+      arrIngredientsFoods = arrKeyValues1
+        .map(([key, value]) => (key.includes('Ingredient') ? value : ''))
+        .filter((item) => item !== '' && item !== null);
       setProgress(arrIngredientsFoods);
     }
   }, [foods, setProgress]);
@@ -100,35 +102,40 @@ function Food() {
               <img
                 data-testid="favorite-btn"
                 className="icon-rip"
-                src={ favoriteRecipes.length > 0 ? blackHeartIcon : whiteHeartIcon }
+                src={
+                  favoriteRecipes.length > 0 ? blackHeartIcon : whiteHeartIcon
+                }
                 alt="favorite"
               />
             </button>
           </div>
-          {progress
-            .filter((item) => item !== '' && item !== null)
-            .map((food, index) => (
-              <label
-                data-testid={ `${index}-ingredient-step` }
-                key={ index }
-                htmlFor={ index }
-              >
-                <input
-                  id={ index }
-                  type="checkbox"
-                  checked={ ingredients.includes(food) }
-                  value={ food }
-                  onChange={ handleChangeCheck }
-                />
-                {food}
-              </label>
-            ))}
+          {progress.map((food, index) => (
+            <label
+              data-testid={ `${index}-ingredient-step` }
+              key={ index }
+              htmlFor={ index }
+            >
+              <input
+                id={ index }
+                type="checkbox"
+                checked={ ingredients.includes(food) }
+                value={ food }
+                onChange={ handleChangeCheck }
+              />
+              {food}
+            </label>
+          ))}
           <p data-testid="recipe-category">{foods.meals[0].strCategory}</p>
           <p data-testid="instructions">{foods.meals[0].strInstructions}</p>
           <div>
-            <button data-testid="finish-recipe-btn" type="button">
+            <button
+              data-testid="finish-recipe-btn"
+              type="button"
+              disabled={ progress.length !== ingredients.length }
+            >
               Finish Recipe
             </button>
+            )
           </div>
         </div>
       )}
