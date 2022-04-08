@@ -1,24 +1,30 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
+import copy from 'clipboard-copy';
 import shareIcon from '../images/shareIcon.svg';
 import myContext from '../context/myContext';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import { getDoneRecipes, getMealsInProgress } from '../services/apiRequests';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import {
+  getDoneRecipes,
+  getMealsInProgress,
+} from '../Helpers/detailsHelper';
 
 function FoodDetails() {
   const {
     detailedItem,
     setDetailedItem,
-    setIngredientes,
-    ingredientes,
+    ingredientesFood,
     recommended,
+    setProgress,
     setRecommended,
-    measures,
-    setMeasures,
+    measuresFood,
     isDone,
     setDone,
-    progress,
-    setProgress,
+    continueRecipe,
+    setContinueRecipe,
+    favoriteRecipes,
+    saveRecipeFoodInState,
   } = useContext(myContext);
 
   const MAGIC_NUMBER_6 = 6;
@@ -34,7 +40,7 @@ function FoodDetails() {
       const data = await response.json();
       setRecommended(data);
     })();
-  }, []);
+  }, [setRecommended]);
 
   useEffect(() => {
     async function fetchData() {
@@ -42,50 +48,28 @@ function FoodDetails() {
         `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${separator[2]}`,
       );
       const data = await response.json();
-      console.log(data);
+      if (data.meals && data.meals.length > 0) {
+        setDone(getDoneRecipes(data.meals[0].idMeals));
+        setProgress(getMealsInProgress(data.meals[0].idMeals));
+      }
       setDetailedItem(data);
     }
     fetchData();
-  });
-
-  useEffect(() => {
-    if (detailedItem.meals[0] && detailedItem.meals[0].length > 0) {
-      setDone(getDoneRecipes(detailedItem.meals[0].idDrink));
-
-      setProgress(getMealsInProgress(recipe[0].idDrink));
-    }
-  }, []);
-
-  function isBigEnough(value) {
-    return value;
-  }
-
-  useEffect(() => {
-    if (detailedItem.meals[0] && detailedItem.meals[0].length > 0) {
-      setDone(getDoneRecipes(detailedItem.meals[0].idDrink));
-
-      setProgress(getDrinksInProgress(detailedItem.meals[0].idDrink));
-    }
   }, []);
 
   useEffect(() => {
-    let arrIngredientsFoods = [];
-    let arrMeasure = [];
-    let finalIngredients = [];
-    let finalMeasures = [];
-    if (detailedItem?.meals?.length > 0) {
-      const arrKeyValues1 = Object.entries(detailedItem.meals[0]);
-      arrIngredientsFoods = arrKeyValues1.map(([key, value]) => (
-        key.includes('Ingredient') ? value : ''));
-      arrMeasure = arrKeyValues1.map(([key, value]) => (
-        key.includes('Measure') ? value : ''));
+    if (detailedItem?.drinks?.length > 0) {
+      setDone(getDoneRecipes(detailedItem.meals[0].idDrink));
+      setContinueRecipe(getDrinksInProgress(detailedItem.meals[0].idDrink));
     }
+  }, []);
 
-    finalIngredients = arrIngredientsFoods.filter(isBigEnough);
-    finalMeasures = arrMeasure.filter(isBigEnough);
-    setIngredientes(finalIngredients);
-    setMeasures(finalMeasures);
-  }, [detailedItem]);
+  const [isShared, setShare] = useState(false);
+
+  const shareRecipe = () => {
+    setShare(true);
+    copy(`http://localhost:3000/foods/${detailedItem.meals[0].idMeal}`);
+  };
 
   return (
     <div>
@@ -100,18 +84,28 @@ function FoodDetails() {
             <div>
               <h2 data-testid="recipe-title">{ detailedItem.meals[0].strMeal }</h2>
               <div>
+                <button type="button" onClick={ shareRecipe }>
+                  {isShared ? (
+                    'Link copied!'
+                  ) : (
+                    <img
+                      data-testid="share-btn"
+                      className="icon-rip"
+                      src={ shareIcon }
+                      alt="share"
+                    />
+                  )}
+                </button>
                 <input
-                  type="image"
-                  data-testid="share-btn"
-                  src={ shareIcon }
-                  alt="Share Icon"
-                />
-                <input
+                  onClick={ () => saveRecipeFoodInState(detailedItem?.meals[0].idMeal) }
                   name="favorite-btn"
                   type="image"
-                  src={ whiteHeartIcon }
                   data-testid="favorite-btn"
                   alt="Favorite Icon"
+                  className="icon-rip"
+                  src={
+                    favoriteRecipes?.length > 0 ? blackHeartIcon : whiteHeartIcon
+                  }
                 />
               </div>
             </div>
@@ -123,14 +117,14 @@ function FoodDetails() {
             <h3>Ingredients</h3>
             <div>
               <ul>
-                {ingredientes.map((value, index) => (
+                {ingredientesFood.map((value, index) => (
                   value
                     ? (
                       <li
                         key={ index }
                         data-testid={ `${index}-ingredient-name-and-measure` }
                       >
-                        {`${value} - ${measures[index]}`}
+                        {`${value} - ${measuresFood[index]}`}
                       </li>) : ''
                 ))}
               </ul>
@@ -178,7 +172,7 @@ function FoodDetails() {
                 onClick={ () => history
                   .push(`${detailedItem.meals[0].idMeal}/in-progress`) }
               >
-                {progress ? 'Continue Recipe' : 'Start Recipe'}
+                {continueRecipe ? 'Continue Recipe' : 'Start Recipe'}
               </button>
             )}
           </main>

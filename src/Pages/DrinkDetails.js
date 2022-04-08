@@ -1,24 +1,30 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
+import copy from 'clipboard-copy';
 import shareIcon from '../images/shareIcon.svg';
 import myContext from '../context/myContext';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import { getDoneRecipes, getDrinksInProgress } from '../services/apiRequests';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import {
+  getDoneRecipes,
+  getDrinksInProgress,
+} from '../Helpers/detailsHelper';
 
 function FoodDetails() {
   const {
     detailedItem,
     setDetailedItem,
     setProgress,
-    progress,
+    ingredientesDrink,
     recommended,
     setRecommended,
-    measures,
-    setMeasures,
+    measuresDrink,
     isDone,
     setDone,
     continueRecipe,
     setContinueRecipe,
+    favoriteRecipes,
+    saveRecipeDrinkInState,
   } = useContext(myContext);
   const MAGIC_NUMBER_6 = 6;
   const history = useHistory();
@@ -42,50 +48,28 @@ function FoodDetails() {
       );
       const data = await response.json();
       setDetailedItem(data);
+      if (data > 0) {
+        setDone(getDoneRecipes(data.Drinks[0].idDrink));
+        setProgress(getDrinksInProgress(data.Drinks[0].idDrink));
+      }
     }
     fetchData();
-  }, [setDetailedItem]);
+  }, [setDetailedItem, separator, setDone, setProgress]);
 
   useEffect(() => {
     if (detailedItem?.drinks?.length > 0) {
       setDone(getDoneRecipes(detailedItem.drinks[0].idDrink));
 
-      setContinueRecipe(getDrinksInProgress(recipe[0].idDrink));
+      setContinueRecipe(getDrinksInProgress(detailedItem.drinks[0].idDrink));
     }
   }, []);
 
-  function isBigEnough(value) {
-    return value;
-  }
+  const [isShared, setShare] = useState(false);
 
-  useEffect(() => {
-    if (detailedItem > 0) {
-      console.log(detailedItem);
-      console.log(detailedItem.Drinks);
-      setDone(getDoneRecipes(detailedItem.Drinks[0].idDrink));
-
-      setProgress(getDrinksInProgress(detailedItem.Drinks[0].idDrink));
-    }
-  }, []);
-
-  useEffect(() => {
-    let arrIngredientsDrinks = [];
-    let arrMeasure = [];
-    let finalIngredients = [];
-    let finalMeasures = [];
-    if (detailedItem?.drinks?.length > 0) {
-      const arrKeyValues1 = Object.entries(detailedItem.drinks[0]);
-      arrIngredientsDrinks = arrKeyValues1.map(([key, value]) => (
-        key.includes('Ingredient') ? value : ''));
-      arrMeasure = arrKeyValues1.map(([key, value]) => (
-        key.includes('Measure') ? value : ''));
-    }
-
-    finalIngredients = arrIngredientsDrinks.filter(isBigEnough);
-    finalMeasures = arrMeasure.filter(isBigEnough);
-    setProgress(finalIngredients);
-    setMeasures(finalMeasures);
-  }, [detailedItem]);
+  const shareRecipe = () => {
+    setShare(true);
+    copy(`http://localhost:3000/drinks/${detailedItem.drinks[0].idDrink}`);
+  };
 
   return (
     <div>
@@ -100,18 +84,30 @@ function FoodDetails() {
             <div>
               <h2 data-testid="recipe-title">{ detailedItem.drinks[0].strDrink }</h2>
               <div>
+                <button type="button" onClick={ shareRecipe }>
+                  {isShared ? (
+                    'Link copied!'
+                  ) : (
+                    <img
+                      data-testid="share-btn"
+                      className="icon-rip"
+                      src={ shareIcon }
+                      alt="share"
+                    />
+                  )}
+                </button>
                 <input
-                  type="image"
-                  data-testid="share-btn"
-                  src={ shareIcon }
-                  alt="Share Icon"
-                />
-                <input
+                  onClick={
+                    () => saveRecipeDrinkInState(detailedItem?.drinks[0].idDrink)
+                  }
                   name="favorite-btn"
                   type="image"
-                  src={ whiteHeartIcon }
                   data-testid="favorite-btn"
                   alt="Favorite Icon"
+                  className="icon-rip"
+                  src={
+                    favoriteRecipes?.length > 0 ? blackHeartIcon : whiteHeartIcon
+                  }
                 />
               </div>
             </div>
@@ -123,14 +119,14 @@ function FoodDetails() {
             <h3>Ingredients</h3>
             <div>
               <ul>
-                {progress.map((value, index) => (
+                {ingredientesDrink.map((value, index) => (
                   value
                     ? (
                       <li
                         key={ index }
                         data-testid={ `${index}-ingredient-name-and-measure` }
                       >
-                        {`${value} - ${measures[index]}`}
+                        {`${value} - ${measuresDrink[index]}`}
                       </li>) : ''
                 ))}
               </ul>
