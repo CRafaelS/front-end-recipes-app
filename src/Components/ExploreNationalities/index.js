@@ -20,7 +20,6 @@ function ExploreNationalities() {
   useEffect(() => {
     const fechFoods = async () => {
       const foodData = await requestNameFromApi('themealdb', '');
-      console.log();
       setFoods(foodData);
     };
     fechFoods();
@@ -28,8 +27,13 @@ function ExploreNationalities() {
 
   const handleNationality = async ({ target }) => {
     const { value } = target;
-    const recipeByNationality = await requestRecipeByNationalities(value);
-    setFoods(recipeByNationality);
+    if (value === 'All') {
+      const foodData = await requestNameFromApi('themealdb', '');
+      setFoods(foodData);
+    } else {
+      const recipeByNationality = await requestRecipeByNationalities(value);
+      setFoods(recipeByNationality);
+    }
   };
 
   return (
@@ -37,6 +41,7 @@ function ExploreNationalities() {
       data-testid="explore-by-nationality-dropdown"
       onChange={ handleNationality }
     >
+      <option data-testid="All-option">All</option>
       { nationalities && nationalities.map((nacionality) => (
         <option
           key={ nacionality.strArea }
