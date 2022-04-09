@@ -70,10 +70,46 @@ export async function requestIgredientsFromApi(typeOfIdredients) {
   }
 }
 
+export async function requesNationalitiesFromApi() {
+  try {
+    const response = await fetch(
+      'https://www.themealdb.com/api/json/v1/1/list.php?a=list',
+    );
+    const data = await response.json();
+    return data.meals;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function requestRecipeByNationalities(nationality) {
+  try {
+    const response = await fetch(
+      `https://www.themealdb.com/api/json/v1/1/filter.php?a=${nationality}`,
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function requestIngredientByNameFromApi(typeOfCategoy, buttonIngredient) {
   try {
     const response = await fetch(
       `https://www.${typeOfCategoy}.com/api/json/v1/1/filter.php?i=${buttonIngredient}`,
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+    
+export async function requestRandomRecipeFromApi(typeOfFood) {
+  try {
+    const response = await fetch(
+      `https://www.${typeOfFood}.com/api/json/v1/1/random.php`,
     );
     const data = await response.json();
     return data;

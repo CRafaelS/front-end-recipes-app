@@ -1,9 +1,10 @@
 import React from 'react';
+import Drink from '../Components/RecipeInProgress/Drink';
 
 function ProgressDrinkRecipe() {
   return (
     <div>
-      <h1>Eu sou o ProgressDrinkRecipe</h1>
+      <Drink />
     </div>
   );
 }
