@@ -32,6 +32,8 @@ export default function MealsAndDrinksProvider({ children }) {
 
   const [ingredientesFood, setIngredientesFoods] = useState([]);
 
+  const [ingredients, setIngredients] = useState([]);
+
   const [measuresDrink, setMeasuresDrink] = useState([]);
 
   const [measuresFood, setMeasuresFood] = useState([]);
@@ -75,6 +77,21 @@ export default function MealsAndDrinksProvider({ children }) {
     } else { setFavoriteRecipe(favoriteRecipes.filter((item) => item.id !== id)); }
   };
 
+  const saveRecipeFoodInStateProgress = (id) => {
+    if (!favoriteRecipes.some((item) => item.id === id)) {
+      const obj = {
+        id: foods.meals[0].idMeal,
+        type: 'food',
+        nationality: foods.meals[0].strArea,
+        category: foods.meals[0].strCategory,
+        alcoholicOrNot: '',
+        name: foods.meals[0].strMeal,
+        image: foods.meals[0].strMealThumb,
+      };
+      setFavoriteRecipe([...favoriteRecipes, obj]);
+    } else { setFavoriteRecipe(favoriteRecipes.filter((item) => item.id !== id)); }
+  };
+
   useEffect(() => {
     let arrIngredientsDrinks = [];
     let arrMeasure = [];
@@ -91,9 +108,7 @@ export default function MealsAndDrinksProvider({ children }) {
     finalIngredients = arrIngredientsDrinks.filter(isBigEnough);
     finalMeasures = arrMeasure.filter(isBigEnough);
     setIngredientesDrink(finalIngredients);
-    console.log(ingredientesDrink, 'drinks ingredientes');
     setMeasuresDrink(finalMeasures);
-    console.log(measuresDrink, 'drinks measures');
   }, [detailedItem]);
 
   useEffect(() => {
@@ -101,7 +116,6 @@ export default function MealsAndDrinksProvider({ children }) {
     let arrMeasure = [];
     let finalIngredients = [];
     let finalMeasures = [];
-    console.log(detailedItem?.meals);
     if (detailedItem?.meals?.length > 0) {
       const arrKeyValues1 = Object.entries(detailedItem.meals[0]);
       arrIngredientsFoods = arrKeyValues1.map(([key, value]) => (
@@ -113,9 +127,7 @@ export default function MealsAndDrinksProvider({ children }) {
     finalIngredients = arrIngredientsFoods.filter(isBigEnough);
     finalMeasures = arrMeasure.filter(isBigEnough);
     setIngredientesFoods(finalIngredients);
-    console.log(ingredientesFood);
     setMeasuresFood(finalMeasures);
-    console.log(measuresFood);
   }, [detailedItem]);
 
   const saveRecipeDrinkInState = (id) => {
@@ -132,6 +144,25 @@ export default function MealsAndDrinksProvider({ children }) {
       setFavoriteRecipe([...favoriteRecipes, obj]);
     } else { setFavoriteRecipe(favoriteRecipes.filter((item) => item.id !== id)); }
   };
+  useEffect(() => {
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
+  }, [favoriteRecipes]);
+
+  const saveRecipeDrinkInStateProgress = (id) => {
+    if (!favoriteRecipes.some((item) => item.id === id)) {
+      const obj = {
+        id: drinks.drinks[0].idDrink,
+        type: 'drink',
+        nationality: '',
+        category: drinks.drinks[0].strCategory,
+        alcoholicOrNot: drinks.drinks[0].strAlcoholic,
+        name: drinks.drinks[0].strDrink,
+        image: drinks.drinks[0].strDrinkThumb,
+      };
+      setFavoriteRecipe([...favoriteRecipes, obj]);
+    } else { setFavoriteRecipe(favoriteRecipes.filter((item) => item.id !== id)); }
+  };
+
   useEffect(() => {
     localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
   }, [favoriteRecipes]);
@@ -165,7 +196,11 @@ export default function MealsAndDrinksProvider({ children }) {
     setMeasuresDrink,
     measuresFood,
     setMeasuresFood,
-
+    setFavoriteRecipe,
+    ingredients,
+    setIngredients,
+    saveRecipeFoodInStateProgress,
+    saveRecipeDrinkInStateProgress,
   };
 
   return <myContext.Provider value={ context }>{children}</myContext.Provider>;
