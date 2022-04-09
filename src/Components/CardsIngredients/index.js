@@ -17,12 +17,12 @@ function CardsIngredients() {
   useEffect(() => {
     const fechIgredients = async () => {
       if (actualPath.pathname === '/explore/foods/ingredients') {
-        const dataFoodIgredients = await requesIgredientsFromApi('themealdb');
+        const dataFoodIgredients = await requestIgredientsFromApi('themealdb');
         console.log(dataFoodIgredients);
         setFoodsIngredients(dataFoodIgredients.meals);
       }
       if (actualPath.pathname === '/explore/drinks/ingredients') {
-        const dataDrinksIgredients = await requesIgredientsFromApi('thecocktaildb');
+        const dataDrinksIgredients = await requestIgredientsFromApi('thecocktaildb');
         console.log(dataDrinksIgredients);
         setDrinksIngredients(dataDrinksIgredients.drinks);
       }
@@ -32,12 +32,12 @@ function CardsIngredients() {
 
   const handleIngredient = async (ingredient) => {
     if (actualPath.pathname === '/explore/foods/ingredients') {
-      const foods = await requesClickIngredientFromApi('themealdb', ingredient);
+      const foods = await requestIngredientByNameFromApi('themealdb', ingredient);
       setFoods(foods);
       history.push('/foods');
     }
     if (actualPath.pathname === '/explore/drinks/ingredients') {
-      const drinks = await requesClickIngredientFromApi('thecocktaildb', ingredient);
+      const drinks = await requestIngredientByNameFromApi('thecocktaildb', ingredient);
       console.log(drinks);
       setDrinks(drinks);
       history.push('/drinks');

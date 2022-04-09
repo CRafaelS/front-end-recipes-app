@@ -105,7 +105,7 @@ export async function requestIngredientByNameFromApi(typeOfCategoy, buttonIngred
     console.log(error);
   }
 }
-    
+
 export async function requestRandomRecipeFromApi(typeOfFood) {
   try {
     const response = await fetch(
