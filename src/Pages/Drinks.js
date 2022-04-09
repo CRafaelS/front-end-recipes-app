@@ -10,15 +10,17 @@ function Drinks() {
   const divStyle = {
     width: '360px',
   };
-  const { setDrinks, setFoods } = useContext(myContext);
+  const { drinks, setDrinks, setFoods } = useContext(myContext);
 
   useEffect(() => {
     const fechDrinks = async () => {
-      const drinkData = await requestNameFromApi('thecocktaildb', '');
-      setDrinks(drinkData);
-      setFoods({
-        meals: [],
-      });
+      if (drinks.drinks.length === 0) {
+        const drinkData = await requestNameFromApi('thecocktaildb', '');
+        setDrinks(drinkData);
+        setFoods({
+          meals: [],
+        });
+      }
     };
     fechDrinks();
   }, [setDrinks, setFoods]);

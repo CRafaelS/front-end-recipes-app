@@ -58,6 +58,18 @@ export async function requesClickCategoryFromApi(typeOfCategoy, buttonCategoy) {
   }
 }
 
+export async function requestIgredientsFromApi(typeOfIdredients) {
+  try {
+    const response = await fetch(
+      `https://www.${typeOfIdredients}.com/api/json/v1/1/list.php?i=list`,
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function requesNationalitiesFromApi() {
   try {
     const response = await fetch(
@@ -74,6 +86,18 @@ export async function requestRecipeByNationalities(nationality) {
   try {
     const response = await fetch(
       `https://www.themealdb.com/api/json/v1/1/filter.php?a=${nationality}`,
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function requestIngredientByNameFromApi(typeOfCategoy, buttonIngredient) {
+  try {
+    const response = await fetch(
+      `https://www.${typeOfCategoy}.com/api/json/v1/1/filter.php?i=${buttonIngredient}`,
     );
     const data = await response.json();
     return data;
