@@ -30,7 +30,7 @@ function CardsIngredients() {
     fechIgredients();
   }, [actualPath.pathname, setFoodsIngredients]);
 
-  const handledrinkIngredient = async (ingredient) => {
+  const handleIngredient = async (ingredient) => {
     if (actualPath.pathname === '/explore/foods/ingredients') {
       const foods = await requesClickIngredientFromApi('themealdb', ingredient);
       setFoods(foods);
@@ -54,7 +54,7 @@ function CardsIngredients() {
               data-testid={ `${index}-ingredient-card` }
               key={ index }
               type="button"
-              onClick={ () => handledrinkIngredient(foodIngredient.strIngredient) }
+              onClick={ () => handleIngredient(foodIngredient.strIngredient) }
             >
               <img
                 src={ `https://www.themealdb.com/images/ingredients/${foodIngredient.strIngredient}-Small.png` }
@@ -74,7 +74,7 @@ function CardsIngredients() {
               data-testid={ `${index}-ingredient-card` }
               key={ index }
               type="button"
-              onClick={ () => handledrinkIngredient(drinkIngredient.strIngredient1) }
+              onClick={ () => handleIngredient(drinkIngredient.strIngredient1) }
             >
               <img
                 src={ `https://www.thecocktaildb.com/images/ingredients/${drinkIngredient.strIngredient1}-Small.png` }
