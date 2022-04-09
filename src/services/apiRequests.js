@@ -57,3 +57,15 @@ export async function requesClickCategoryFromApi(typeOfCategoy, buttonCategoy) {
     console.log(error);
   }
 }
+
+export async function requestRandomRecipeFromApi(typeOfFood) {
+  try {
+    const response = await fetch(
+      `https://www.${typeOfFood}.com/api/json/v1/1/random.php`,
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
