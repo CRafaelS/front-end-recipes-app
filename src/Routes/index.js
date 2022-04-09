@@ -12,7 +12,7 @@ import FoodsExplorer from '../Pages/FoodsExplorer';
 import DrinksExplorer from '../Pages/DrinksExplorer';
 import FoodIngredients from '../Pages/FoodIngredients';
 import DrinksIngredients from '../Pages/DrinkIngredients';
-import FoodNacionalities from '../Pages/FoodNationalities';
+import FoodNationalities from '../Pages/FoodNationalities';
 import Profile from '../Pages/Profile';
 import DoneRecipes from '../Pages/DoneRecipes';
 import FavoriteRecipes from '../Pages/FavoriteRecipes';
@@ -36,18 +36,18 @@ const Routes = () => (
         </RecipesProvider>
       </Route>
       <Route path="/explore/drinks/ingredients" component={ DrinksIngredients } />
-      <Route path="/explore/drinks" component={ DrinksExplorer } />
-      <Route path="/explore/foods/nationalities" component={ FoodNacionalities } />
+      <Route exact path="/explore/drinks" component={ DrinksExplorer } />
+      <Route path="/explore/foods/nationalities" component={ FoodNationalities } />
       <Route path="/explore/foods/ingredients" component={ FoodIngredients } />
       <Route path="/explore/foods" component={ FoodsExplorer } />
-      <Route path="/explore" component={ Explorer } />
+      <Route exact path="/explore" component={ Explorer } />
       <Route path="/drinks/:id/in-progress" component={ ProgressDrinkRecipe } />
       <Route path="/drinks/:id" render={ (props) => <DrinkDetails { ...props } /> } />
       <Route path="/drinks" component={ Drinks } />
       <Route path="/foods/:id/in-progress" component={ ProgressFoodRecipe } />
       <Route path="/foods/:id" render={ (props) => <FoodDetails { ...props } /> } />
       <Route path="/foods" component={ Foods } />
-      <Route path="/">
+      <Route exact path="/">
         <UserProvider>
           <Login />
         </UserProvider>

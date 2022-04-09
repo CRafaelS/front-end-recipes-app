@@ -10,7 +10,7 @@ import {
   getDrinksInProgress,
 } from '../Helpers/detailsHelper';
 
-function FoodDetails() {
+function DrinkDetails() {
   const {
     detailedItem,
     setDetailedItem,
@@ -177,4 +177,4 @@ function FoodDetails() {
     </div>
   );
 }
-export default FoodDetails;
+export default DrinkDetails;

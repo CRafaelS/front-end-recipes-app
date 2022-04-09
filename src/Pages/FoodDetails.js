@@ -5,10 +5,7 @@ import shareIcon from '../images/shareIcon.svg';
 import myContext from '../contexts/myContext';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
-import {
-  getDoneRecipes,
-  getMealsInProgress,
-} from '../Helpers/detailsHelper';
+import { getDoneRecipes } from '../Helpers/detailsHelper';
 
 function FoodDetails() {
   const {
@@ -16,7 +13,6 @@ function FoodDetails() {
     setDetailedItem,
     ingredientesFood,
     recommended,
-    setProgress,
     setRecommended,
     measuresFood,
     isDone,
@@ -50,7 +46,6 @@ function FoodDetails() {
       const data = await response.json();
       if (data.meals && data.meals.length > 0) {
         setDone(getDoneRecipes(data.meals[0].idMeals));
-        setProgress(getMealsInProgress(data.meals[0].idMeals));
       }
       setDetailedItem(data);
     }
