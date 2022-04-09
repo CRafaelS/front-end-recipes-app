@@ -1,16 +1,16 @@
 import React, { useContext } from 'react';
-import DoneRecipesButtons from '../Components/DoneRecipesButtons';
+import RecipeTypeButtons from '../Components/RecipeTypeButtons';
 import DoneRecipesCard from '../Components/DoneRecipesCard';
 import Header from '../Components/Header';
-import doneRecipesContext from '../context/DoneRecipes';
+import recipesContext from '../contexts/recipes';
 
 function DoneRecipes() {
-  const { doneRecipes, filter } = useContext(doneRecipesContext);
+  const { doneRecipes, filter } = useContext(recipesContext);
 
   return (
     <>
       <Header title="Done Recipes" />
-      <DoneRecipesButtons />
+      <RecipeTypeButtons />
       {doneRecipes
         .filter((recipe) => filter === 'all' || filter === recipe.type)
         .map((recipe, index) => (

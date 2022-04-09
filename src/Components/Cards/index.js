@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import myContext from '../../context/myContext';
+import myContext from '../../contexts/myContext';
 import './style.css';
 
 export default function Cards() {
