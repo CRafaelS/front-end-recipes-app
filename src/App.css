@@ -66,3 +66,18 @@
     transform: rotate(-10deg);
   }
 }
+
+.conteiner {
+  display: flex;
+  flex-flow: row nowrap;
+  flex-direction: row;
+  height: 350px;
+  overflow-x: auto;
+  padding: 0;
+  width: 180;
+}
+
+.startButton {
+  bottom: 0;
+  position: fixed;
+}
