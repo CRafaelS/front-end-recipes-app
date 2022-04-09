@@ -54,7 +54,7 @@ function FoodDetails() {
       }
     }
     fetchData();
-  }, [setDetailedItem, separator, setDone, setProgress]);
+  }, [setDetailedItem, setDone, setProgress]);
 
   useEffect(() => {
     if (detailedItem?.drinks?.length > 0) {
