@@ -37,7 +37,7 @@ const Routes = () => (
       </Route>
       <Route path="/explore/drinks/ingredients" component={ DrinksIngredients } />
       <Route exact path="/explore/drinks" component={ DrinksExplorer } />
-      <Route path="/explore/foods/nationalities" component={ FoodNacionalities } />
+      <Route path="/explore/foods/nationalities" component={ FoodNationalities } />
       <Route path="/explore/foods/ingredients" component={ FoodIngredients } />
       <Route path="/explore/foods" component={ FoodsExplorer } />
       <Route exact path="/explore" component={ Explorer } />
