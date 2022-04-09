@@ -1,10 +1,6 @@
 .Footer {
   bottom: 0;
-}
-
-.img-footer {
-  height: 15px;
-  width: 15px;
+  position: fixed;
 }
 
 .Footer img {

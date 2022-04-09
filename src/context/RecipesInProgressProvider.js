@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import myContext from './myContext';
 
-export default function MealsAndDrinksProvider({ children }) {
+export default function RecipesInProgressProvider({ children }) {
   const [inputs, setInputs] = useState({
     search: '',
     selectedOption: '',
@@ -94,6 +94,6 @@ export default function MealsAndDrinksProvider({ children }) {
   };
   return <myContext.Provider value={ context }>{children}</myContext.Provider>;
 }
-MealsAndDrinksProvider.propTypes = {
+RecipesInProgressProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };

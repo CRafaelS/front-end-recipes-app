@@ -5,7 +5,7 @@ import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import './style.css';
-import myContext from '../../context/myContext';
+import myContext from '../../contexts/myContext';
 
 export default function Drink() {
   const {
@@ -13,7 +13,7 @@ export default function Drink() {
     setDrinks,
     progress,
     setProgress,
-    saveRecipeDrinkInState,
+    saveRecipeDrinkInStateProgress,
     handleChangeCheck,
     ingredients,
     setIngredients,
@@ -102,7 +102,7 @@ export default function Drink() {
             </button>
             <button
               type="button"
-              onClick={ () => saveRecipeDrinkInState(pageId) }
+              onClick={ () => saveRecipeDrinkInStateProgress(pageId) }
             >
               <img
                 data-testid="favorite-btn"

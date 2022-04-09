@@ -5,7 +5,7 @@ import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import './style.css';
-import myContext from '../../context/myContext';
+import myContext from '../../contexts/myContext';
 
 function Food() {
   const {
@@ -13,7 +13,7 @@ function Food() {
     setFoods,
     progress,
     setProgress,
-    saveRecipeFoodInState,
+    saveRecipeFoodInStateProgress,
     handleChangeCheck,
     ingredients,
     setIngredients,
@@ -34,7 +34,7 @@ function Food() {
       setFoods(data);
     }
     fetchData();
-  }, [setFoods, separator]);
+  }, [setFoods]);
 
   useEffect(() => {
     let arrIngredientsFoods = [];
@@ -99,7 +99,7 @@ function Food() {
                 />
               )}
             </button>
-            <button type="button" onClick={ () => saveRecipeFoodInState(pageId) }>
+            <button type="button" onClick={ () => saveRecipeFoodInStateProgress(pageId) }>
               <img
                 data-testid="favorite-btn"
                 className="icon-rip"
