@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import {
-  requesClickIngredientFromApi,
-  requesIgredientsFromApi,
+  requestIngredientByNameFromApi,
+  requestIgredientsFromApi,
 } from '../../services/apiRequests';
 import myContext from '../../contexts/myContext';
 
