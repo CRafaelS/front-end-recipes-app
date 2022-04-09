@@ -1,0 +1,12 @@
+.Button {
+  align-items: center;
+  border-radius: 6px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-wrap: wrap;
+  height: 82px;
+  left: 14px;
+  margin-top: 20px;
+  top: 196px;
+  width: 327px;
+}

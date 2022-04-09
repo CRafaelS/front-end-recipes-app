@@ -6,7 +6,7 @@ import {
   requestNameFromApi,
   requestFirstLetterFromApi,
 } from '../../services/apiRequests';
-import myContext from '../../context/myContext';
+import myContext from '../../contexts/myContext';
 
 export default function HeaderSearchBar() {
   const { inputs, setInputs, setFoods, setDrinks } = useContext(myContext);
