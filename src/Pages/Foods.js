@@ -11,15 +11,17 @@ export default function Foods() {
     width: '360px',
   };
 
-  const { setFoods, setDrinks } = useContext(myContext);
+  const { foods, setFoods, setDrinks } = useContext(myContext);
 
   useEffect(() => {
     const fechFoods = async () => {
-      const foodData = await requestNameFromApi('themealdb', '');
-      setFoods(foodData);
-      setDrinks({
-        drinks: [],
-      });
+      if (foods.meals.length === 0) {
+        const foodData = await requestNameFromApi('themealdb', '');
+        setFoods(foodData);
+        setDrinks({
+          drinks: [],
+        });
+      }
     };
     fechFoods();
   }, [setFoods, setDrinks]);

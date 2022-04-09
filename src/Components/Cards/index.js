@@ -10,7 +10,8 @@ export default function Cards() {
   const RECIPES_LIMIT = 12;
 
   const handleCard = (id) => {
-    if (actualPath.pathname === '/foods') {
+    if (actualPath.pathname === '/foods'
+     || actualPath.pathname === '/explore/foods/nationalities') {
       history.push(`/foods/${id}`);
     }
     if (actualPath.pathname === '/drinks') {

@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import doneRecipesContext from '../../contexts/DoneRecipes';
+import recipesContext from '../../contexts/recipes';
 
-function DoneRecipesButtons() {
-  const { setFilter } = useContext(doneRecipesContext);
+function RecipeTypeButtons() {
+  const { setFilter } = useContext(recipesContext);
   return (
     <div className="done-recipes-buttons">
       <button
@@ -30,4 +30,4 @@ function DoneRecipesButtons() {
   );
 }
 
-export default DoneRecipesButtons;
+export default RecipeTypeButtons;
