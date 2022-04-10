@@ -1,5 +1,6 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import styled from 'styled-components';
 
 function Input({
   name,
@@ -8,10 +9,15 @@ function Input({
   testId,
 }) {
   const [firstNameLetter, ...nameRestLetters] = name;
+
+  const LoginInput = styled.input`
+  background-color: green;
+  `;
+
   return (
     <label htmlFor={ name }>
       {`${firstNameLetter}${nameRestLetters.join('')}`}
-      <input
+      <LoginInput
         data-testid={ testId }
         id={ name }
         name={ name }
