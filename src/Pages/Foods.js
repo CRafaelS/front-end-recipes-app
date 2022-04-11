@@ -7,10 +7,6 @@ import myContext from '../contexts/myContext';
 import Category from '../Components/Category';
 
 export default function Foods() {
-  const divStyle = {
-    width: '360px',
-  };
-
   const { foods, setFoods, setDrinks } = useContext(myContext);
 
   useEffect(() => {
@@ -27,11 +23,11 @@ export default function Foods() {
   }, [setFoods, setDrinks]);
 
   return (
-    <div style={ divStyle }>
+    <>
       <Header title="Foods" showButton />
       <Category />
       <Cards />
       <Footer />
-    </div>
+    </>
   );
 }
