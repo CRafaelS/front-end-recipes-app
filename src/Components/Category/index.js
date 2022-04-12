@@ -6,7 +6,14 @@ import {
   requesClickCategoryFromApi,
   requestNameFromApi,
 } from '../../services/apiRequests';
-import './style.css';
+import {
+  Container,
+  Button,
+  ContainerCards,
+  ButtonCards,
+  Img,
+  P,
+} from './styledComponents';
 
 function Category() {
   const { setFoods, setDrinks } = useContext(myContext);
@@ -28,7 +35,9 @@ function Category() {
       }
 
       if (actualPath.pathname === '/drinks') {
-        const drinkDataCategory = await requesCategoriesFromApi('thecocktaildb');
+        const drinkDataCategory = await requesCategoriesFromApi(
+          'thecocktaildb',
+        );
         setdrinksCategories(drinkDataCategory.drinks);
       }
     };
@@ -45,7 +54,10 @@ function Category() {
         setCompareCategory('');
       } else {
         setCompareCategory(name);
-        const foodDataCategory = await requesClickCategoryFromApi('themealdb', name);
+        const foodDataCategory = await requesClickCategoryFromApi(
+          'themealdb',
+          name,
+        );
         setclickFoodsCategories(foodDataCategory.meals);
         setFoods({ meals: [] });
       }
@@ -59,7 +71,10 @@ function Category() {
         setCompareCategory('');
       } else {
         setCompareCategory(name);
-        const drinkDataCategory = await requesClickCategoryFromApi('thecocktaildb', name);
+        const drinkDataCategory = await requesClickCategoryFromApi(
+          'thecocktaildb',
+          name,
+        );
         setclickDrinksCategories(drinkDataCategory.drinks);
         setDrinks({ drinks: [] });
       }
@@ -90,28 +105,30 @@ function Category() {
   };
 
   return (
-    <div>
-      <button
-        type="button"
-        data-testid="All-category-filter"
-        onClick={ handleAll }
-      >
-        ALL
-      </button>
-      {foodsCategories && foodsCategories
-        .slice(0, CATEGORY_LIMIT).map((categoryName) => (
-          <button
+    <>
+      <Container>
+        <Button
+          type="button"
+          data-testid="All-category-filter"
+          onClick={ handleAll }
+        >
+          ALL
+        </Button>
+        {foodsCategories
+        && foodsCategories.slice(0, CATEGORY_LIMIT).map((categoryName) => (
+          <Button
             type="button"
             name={ categoryName.strCategory }
             data-testid={ `${categoryName.strCategory}-category-filter` }
             key={ categoryName.strCategory }
             onClick={ handleCategory }
           >
-            { categoryName.strCategory }
-          </button>
+            {categoryName.strCategory}
+          </Button>
         ))}
-      {drinksCategories && drinksCategories
-        .slice(0, CATEGORY_LIMIT).map(({ strCategory }) => (
+      </Container>
+      {drinksCategories
+        && drinksCategories.slice(0, CATEGORY_LIMIT).map(({ strCategory }) => (
           <button
             type="button"
             name={ strCategory }
@@ -119,44 +136,49 @@ function Category() {
             key={ strCategory }
             onClick={ handleCategory }
           >
-            { strCategory }
+            {strCategory}
           </button>
         ))}
-      {clickFoodsCategories && clickFoodsCategories
-        .slice(0, RECIPES_LIMIT).map((foodCategory, index) => (
-          <button
-            key={ foodCategory.idMeal }
-            data-testid={ `${index}-recipe-card` }
-            className="container"
-            type="button"
-            onClick={ () => handleCard(foodCategory.idMeal) }
-          >
-            <img
-              src={ foodCategory.strMealThumb }
-              alt={ foodCategory.strMeal }
-              data-testid={ `${index}-card-img` }
-            />
-            <p data-testid={ `${index}-card-name` }>{foodCategory.strMeal}</p>
-          </button>
-        ))}
-      {clickDrinksCategories && clickDrinksCategories
-        .slice(0, RECIPES_LIMIT).map((drinkCategory, index) => (
-          <button
-            key={ drinkCategory.idDrink }
-            data-testid={ `${index}-recipe-card` }
-            className="container"
-            type="button"
-            onClick={ () => handleCard(drinkCategory.idDrink) }
-          >
-            <img
-              src={ drinkCategory.strDrinkThumb }
-              alt={ drinkCategory.strDrink }
-              data-testid={ `${index}-card-img` }
-            />
-            <p data-testid={ `${index}-card-name` }>{drinkCategory.strDrink}</p>
-          </button>
-        ))}
-    </div>
+      {clickFoodsCategories
+        && (
+          <ContainerCards>
+            {clickFoodsCategories
+              .slice(0, RECIPES_LIMIT)
+              .map((foodCategory, index) => (
+                <ButtonCards
+                  key={ foodCategory.idMeal }
+                  data-testid={ `${index}-recipe-card` }
+                  type="button"
+                  onClick={ () => handleCard(foodCategory.idMeal) }
+                >
+                  <Img
+                    src={ foodCategory.strMealThumb }
+                    alt={ foodCategory.strMeal }
+                    data-testid={ `${index}-card-img` }
+                  />
+                  <P data-testid={ `${index}-card-name` }>{foodCategory.strMeal}</P>
+                </ButtonCards>
+              ))}
+          </ContainerCards>)}
+      {clickDrinksCategories
+        && clickDrinksCategories
+          .slice(0, RECIPES_LIMIT)
+          .map((drinkCategory, index) => (
+            <button
+              key={ drinkCategory.idDrink }
+              data-testid={ `${index}-recipe-card` }
+              type="button"
+              onClick={ () => handleCard(drinkCategory.idDrink) }
+            >
+              <img
+                src={ drinkCategory.strDrinkThumb }
+                alt={ drinkCategory.strDrink }
+                data-testid={ `${index}-card-img` }
+              />
+              <p data-testid={ `${index}-card-name` }>{drinkCategory.strDrink}</p>
+            </button>
+          ))}
+    </>
   );
 }
 export default Category;

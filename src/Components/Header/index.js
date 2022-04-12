@@ -4,36 +4,36 @@ import PropTypes from 'prop-types';
 import searchIcon from '../../images/searchIcon.svg';
 import profileIcon from '../../images/profileIcon.svg';
 import HeaderSearchBar from '../HeaderSearchBar';
-import './style.css';
+import { H1, HeaderContainer, Button } from './styledComponents';
 
 function Header({ title, showButton }) {
   const [inputVisable, setInputVisable] = useState(false);
 
   return (
-    <header>
-      <h1 data-testid="page-title">{title}</h1>
+    <HeaderContainer>
       <Link to="/profile">
-        <button type="button" src={ profileIcon } alt="profile">
+        <Button type="button" src={ profileIcon } alt="profile">
           <img
             className="img-header"
             src={ profileIcon }
             alt="profile"
             data-testid="profile-top-btn"
           />
-        </button>
+        </Button>
       </Link>
+      <H1 data-testid="page-title">{title}</H1>
       {showButton && (
-        <button
+        <Button
           data-testid="search-top-btn"
           type="button"
           src={ searchIcon }
           onClick={ () => setInputVisable(!inputVisable) }
         >
           <img className="img-header" src={ searchIcon } alt="search" />
-        </button>
+        </Button>
       )}
       {inputVisable && <HeaderSearchBar />}
-    </header>
+    </HeaderContainer>
   );
 }
 

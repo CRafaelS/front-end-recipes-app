@@ -8,22 +8,3 @@
   src: url('./fonts/La FlibustiКre.ttf') format('truetype');
 }
 
-h1 {
-  font-family: titleFont , sans-serif;
-  text-align: center;
-}
-
-.conteiner {
-  display: flex;
-  flex-flow: row nowrap;
-  flex-direction: row;
-  height: 350px;
-  overflow-x: auto;
-  padding: 0;
-  width: 180;
-}
-
-.startButton {
-  bottom: 0;
-  position: fixed;
-}

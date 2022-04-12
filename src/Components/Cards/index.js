@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import myContext from '../../contexts/myContext';
-import './style.css';
+import { Container, Img, Button, P } from './styledComponents';
 
 export default function Cards() {
   const { foods, drinks } = useContext(myContext);
@@ -22,36 +22,34 @@ export default function Cards() {
   return (
     <div>
       {foods.meals.length > 1 && (
-        <div>
+        <Container>
           {foods.meals.slice(0, RECIPES_LIMIT).map((food, index) => (
-            <button
-              className="container"
+            <Button
               data-testid={ `${index}-recipe-card` }
               key={ index }
               type="button"
               onClick={ () => handleCard(food.idMeal) }
             >
-              <img
+              <Img
                 src={ food.strMealThumb }
                 alt={ food.strMeal }
                 data-testid={ `${index}-card-img` }
               />
-              <p data-testid={ `${index}-card-name` }>{food.strMeal}</p>
-            </button>
+              <P data-testid={ `${index}-card-name` }>{food.strMeal}</P>
+            </Button>
           ))}
-        </div>
+        </Container>
       )}
       {drinks.drinks.length > 1 && (
         <div>
           {drinks.drinks.slice(0, RECIPES_LIMIT).map((drink, index) => (
             <button
-              className="container"
               data-testid={ `${index}-recipe-card` }
               key={ index }
               type="button"
               onClick={ () => handleCard(drink.idDrink) }
             >
-              <img
+              <Img
                 src={ drink.strDrinkThumb }
                 alt={ drink.strDrink }
                 data-testid={ `${index}-card-img` }

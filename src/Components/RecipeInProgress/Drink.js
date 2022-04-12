@@ -4,7 +4,6 @@ import copy from 'clipboard-copy';
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
-import './style.css';
 import myContext from '../../contexts/myContext';
 
 export default function Drink() {

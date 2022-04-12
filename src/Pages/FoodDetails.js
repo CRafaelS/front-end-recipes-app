@@ -6,6 +6,14 @@ import myContext from '../contexts/myContext';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import { getDoneRecipes } from '../Helpers/detailsHelper';
+/* import {
+  Image,
+  ShareButton,
+  RecipeTitle,
+  TitlesDetails,
+  TextDetails,
+  ButtonsDiv,
+} from '../StyledComponents/FoodDetailsStyle'; */
 
 function FoodDetails() {
   const {
@@ -70,16 +78,18 @@ function FoodDetails() {
     <div>
       {detailedItem.meals.length === 1 && (
         <div>
-          <img
+          <Image
             src={ detailedItem.meals[0].strMealThumb }
             alt={ detailedItem.meals[0].strMeal }
             data-testid="recipe-photo"
           />
           <main>
             <div>
-              <h2 data-testid="recipe-title">{ detailedItem.meals[0].strMeal }</h2>
-              <div>
-                <button type="button" onClick={ shareRecipe }>
+              <RecipeTitle data-testid="recipe-title">
+                {detailedItem.meals[0].strMeal}
+              </RecipeTitle>
+              <ButtonsDiv>
+                <ShareButton type="button" onClick={ shareRecipe }>
                   {isShared ? (
                     'Link copied!'
                   ) : (
@@ -90,7 +100,7 @@ function FoodDetails() {
                       alt="share"
                     />
                   )}
-                </button>
+                </ShareButton>
                 <input
                   onClick={ () => saveRecipeFoodInState(detailedItem?.meals[0].idMeal) }
                   name="favorite-btn"
@@ -99,73 +109,74 @@ function FoodDetails() {
                   alt="Favorite Icon"
                   className="icon-rip"
                   src={
-                    favoriteRecipes?.length > 0 ? blackHeartIcon : whiteHeartIcon
+                    favoriteRecipes?.length > 0
+                      ? blackHeartIcon
+                      : whiteHeartIcon
                   }
                 />
-              </div>
+              </ButtonsDiv>
             </div>
-            <p
-              data-testid="recipe-category"
-            >
-              { detailedItem.meals[0].strCategory }
+            <p data-testid="recipe-category">
+              {detailedItem.meals[0].strCategory}
             </p>
-            <h3>Ingredients</h3>
-            <div>
+            <TitlesDetails>Ingredients</TitlesDetails>
+            <TextDetails>
               <ul>
-                {ingredientesFood.map((value, index) => (
-                  value
-                    ? (
-                      <li
-                        key={ index }
-                        data-testid={ `${index}-ingredient-name-and-measure` }
-                      >
-                        {`${value} - ${measuresFood[index]}`}
-                      </li>) : ''
-                ))}
+                {ingredientesFood.map((value, index) => (value ? (
+                  <li
+                    key={ index }
+                    data-testid={ `${index}-ingredient-name-and-measure` }
+                  >
+                    {`${value} - ${measuresFood[index]}`}
+                  </li>
+                ) : (
+                  ''
+                )))}
               </ul>
-            </div>
-            <h3>Instructions</h3>
-            <p
-              data-testid="instructions"
-            >
+            </TextDetails>
+            <TitlesDetails>Instructions</TitlesDetails>
+            <TextDetails data-testid="instructions">
               {detailedItem.meals[0].strInstructions}
-            </p>
-            <h3>Video</h3>
+            </TextDetails>
+            <TitlesDetails>Video</TitlesDetails>
             <iframe
               title="video"
-              src={ `https://www.youtube.com/embed/${detailedItem.meals[0].strYoutube.split('watch?v=')[1]}` }
+              src={ `https://www.youtube.com/embed/${
+                detailedItem.meals[0].strYoutube.split('watch?v=')[1]
+              }` }
               data-testid="video"
             />
-            <h3>Recommended</h3>
-            <div className="conteiner">
-              {recommended.drinks.slice(0, MAGIC_NUMBER_6)
+            <TitlesDetails>Recommended</TitlesDetails>
+            <TextDetails className="conteiner">
+              {recommended.drinks
+                .slice(0, MAGIC_NUMBER_6)
                 .map((drink, index) => (
                   <div
                     className="container"
                     data-testid={ `${index}-recomendation-card` }
                     key={ index }
                   >
-                    <img
+                    <Image
                       src={ drink.strDrinkThumb }
                       alt={ drink.strDrink }
                       data-testid={ `${index}-card-img` }
                     />
-                    <p
-                      data-testid={ `${index}-recomendation-title` }
-                    >
+                    <p data-testid={ `${index}-recomendation-title` }>
                       {drink.strDrink}
-
                     </p>
                   </div>
                 ))}
-            </div>
-            { isDone ? '' : (
+            </TextDetails>
+            {isDone ? (
+              ''
+            ) : (
               <button
                 className="startButton"
                 type="button"
                 data-testid="start-recipe-btn"
-                onClick={ () => history
-                  .push(`${detailedItem.meals[0].idMeal}/in-progress`) }
+                onClick={ () => history.push(
+                  `${detailedItem.meals[0].idMeal}/in-progress`,
+                ) }
               >
                 {continueRecipe ? 'Continue Recipe' : 'Start Recipe'}
               </button>

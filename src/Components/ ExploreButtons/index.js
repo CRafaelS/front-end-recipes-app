@@ -1,6 +1,5 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import './style.css';
 
 function ExploreButtons() {
   const history = useHistory();

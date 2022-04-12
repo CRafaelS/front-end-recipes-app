@@ -4,7 +4,6 @@ const themes = {
   default: {
     background: backgroundPattern,
     width: '360px',
-    height: '640px',
   },
 };
 
