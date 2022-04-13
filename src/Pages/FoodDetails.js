@@ -6,14 +6,18 @@ import myContext from '../contexts/myContext';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import { getDoneRecipes } from '../Helpers/detailsHelper';
-/* import {
+import {
   Image,
   ShareButton,
   RecipeTitle,
   TitlesDetails,
   TextDetails,
   ButtonsDiv,
-} from '../StyledComponents/FoodDetailsStyle'; */
+  Container,
+  Button,
+  Img,
+  P,
+} from '../StyledComponents/FoodDetailsStyle';
 
 function FoodDetails() {
   const {
@@ -95,7 +99,6 @@ function FoodDetails() {
                   ) : (
                     <img
                       data-testid="share-btn"
-                      className="icon-rip"
                       src={ shareIcon }
                       alt="share"
                     />
@@ -107,7 +110,6 @@ function FoodDetails() {
                   type="image"
                   data-testid="favorite-btn"
                   alt="Favorite Icon"
-                  className="icon-rip"
                   src={
                     favoriteRecipes?.length > 0
                       ? blackHeartIcon
@@ -116,9 +118,9 @@ function FoodDetails() {
                 />
               </ButtonsDiv>
             </div>
-            <p data-testid="recipe-category">
+            <TextDetails data-testid="recipe-category">
               {detailedItem.meals[0].strCategory}
-            </p>
+            </TextDetails>
             <TitlesDetails>Ingredients</TitlesDetails>
             <TextDetails>
               <ul>
@@ -134,44 +136,47 @@ function FoodDetails() {
                 )))}
               </ul>
             </TextDetails>
-            <TitlesDetails>Instructions</TitlesDetails>
-            <TextDetails data-testid="instructions">
-              {detailedItem.meals[0].strInstructions}
-            </TextDetails>
-            <TitlesDetails>Video</TitlesDetails>
-            <iframe
-              title="video"
-              src={ `https://www.youtube.com/embed/${
-                detailedItem.meals[0].strYoutube.split('watch?v=')[1]
-              }` }
-              data-testid="video"
-            />
+            <Container>
+              <TitlesDetails>Instructions</TitlesDetails>
+              <TextDetails data-testid="instructions">
+                {detailedItem.meals[0].strInstructions}
+              </TextDetails>
+            </Container>
+            <Container>
+              <TitlesDetails>Video</TitlesDetails>
+              <iframe
+                title="video"
+                src={ `https://www.youtube.com/embed/${
+                  detailedItem.meals[0].strYoutube.split('watch?v=')[1]
+                }` }
+                data-testid="video"
+              />
+            </Container>
             <TitlesDetails>Recommended</TitlesDetails>
-            <TextDetails className="conteiner">
+            <Container>
               {recommended.drinks
                 .slice(0, MAGIC_NUMBER_6)
                 .map((drink, index) => (
-                  <div
-                    className="container"
+                  <Button
+                    type="button"
                     data-testid={ `${index}-recomendation-card` }
                     key={ index }
                   >
-                    <Image
+                    <Img
                       src={ drink.strDrinkThumb }
                       alt={ drink.strDrink }
                       data-testid={ `${index}-card-img` }
                     />
-                    <p data-testid={ `${index}-recomendation-title` }>
+                    <P data-testid={ `${index}-recomendation-title` }>
                       {drink.strDrink}
-                    </p>
-                  </div>
+                    </P>
+                  </Button>
                 ))}
-            </TextDetails>
+            </Container>
             {isDone ? (
               ''
             ) : (
               <button
-                className="startButton"
                 type="button"
                 data-testid="start-recipe-btn"
                 onClick={ () => history.push(

@@ -50,16 +50,12 @@ export const TextDetails = styled.div`
   width: 330px;
 `;
 
-export const ButtonsDiv = styled.div`
-  display: flex;
-  flex-direction: initial;
-  align-items: center;
-`;
-
 export const Container = styled.div`
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
 `;
 
 export const Button = styled.button`
@@ -86,4 +82,19 @@ export const Img = styled.img`
 export const P = styled.p` 
   font-family: titleFont;
   font-size: 20px;
+`;
+
+export const Inputs = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  `;
+
+export const TextDiv = styled.p`
+  padding:15px`;
+
+export const ButtonsDiv = styled.div`
+display: flex;
+justify-content: space-between;
+padding-bottom: 15px;
 `;

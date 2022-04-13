@@ -5,6 +5,15 @@ import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import myContext from '../../contexts/myContext';
+import {
+  Image,
+  TitlesDetails,
+  RecipeTitle,
+  Container,
+  Inputs,
+  TextDiv,
+  ButtonsDiv,
+} from './styledComponents';
 
 function Food() {
   const {
@@ -76,57 +85,72 @@ function Food() {
   return (
     <div>
       {progress.length && (
-        <div className="container">
-          <img
-            className="img-rip"
-            data-testid="recipe-photo"
-            src={ foods.meals[0].strMealThumb }
-            alt="Receita em progresso"
-          />
-          <br />
-          <p data-testid="recipe-title">{foods.meals[0].strMeal}</p>
-          <div className="icon-container">
-            <button type="button" onClick={ shareRecipe }>
-              {isShared ? (
-                'Link copied!'
-              ) : (
-                <img
-                  data-testid="share-btn"
-                  className="icon-rip"
-                  src={ shareIcon }
-                  alt="share"
-                />
-              )}
-            </button>
-            <button type="button" onClick={ () => saveRecipeFoodInStateProgress(pageId) }>
-              <img
-                data-testid="favorite-btn"
-                className="icon-rip"
-                src={
-                  favoriteRecipes.length > 0 ? blackHeartIcon : whiteHeartIcon
-                }
-                alt="favorite"
-              />
-            </button>
+        <Container>
+          <div>
+            <Image
+              data-testid="recipe-photo"
+              src={ foods.meals[0].strMealThumb }
+              alt="Receita em progresso"
+            />
           </div>
-          {progress.map((food, index) => (
-            <label
-              data-testid={ `${index}-ingredient-step` }
-              key={ index }
-              htmlFor={ index }
-            >
-              <input
-                id={ index }
-                type="checkbox"
-                checked={ ingredients.includes(food) }
-                value={ food }
-                onChange={ handleChangeCheck }
-              />
-              {food}
-            </label>
-          ))}
-          <p data-testid="recipe-category">{foods.meals[0].strCategory}</p>
-          <p data-testid="instructions">{foods.meals[0].strInstructions}</p>
+          <div>
+            <TitlesDetails data-testid="recipe-title">
+              {foods.meals[0].strMeal}
+            </TitlesDetails>
+          </div>
+          <ButtonsDiv>
+            <div>
+              <button type="button" onClick={ shareRecipe }>
+                {isShared ? (
+                  'Link copied!'
+                ) : (
+                  <img data-testid="share-btn" src={ shareIcon } alt="share" />
+                )}
+              </button>
+            </div>
+            <div>
+              <button
+                type="button"
+                onClick={ () => saveRecipeFoodInStateProgress(pageId) }
+              >
+                <img
+                  data-testid="favorite-btn"
+                  src={
+                    favoriteRecipes.length > 0 ? blackHeartIcon : whiteHeartIcon
+                  }
+                  alt="favorite"
+                />
+              </button>
+            </div>
+          </ButtonsDiv>
+          <Inputs>
+            {progress.map((food, index) => (
+              <label
+                data-testid={ `${index}-ingredient-step` }
+                key={ index }
+                htmlFor={ index }
+              >
+                <input
+                  id={ index }
+                  type="checkbox"
+                  checked={ ingredients.includes(food) }
+                  value={ food }
+                  onChange={ handleChangeCheck }
+                />
+                {food}
+              </label>
+            ))}
+          </Inputs>
+          <div>
+            <RecipeTitle data-testid="recipe-category">
+              {foods.meals[0].strCategory}
+            </RecipeTitle>
+          </div>
+          <div>
+            <TextDiv data-testid="instructions">
+              {foods.meals[0].strInstructions}
+            </TextDiv>
+          </div>
           <div>
             <button
               data-testid="finish-recipe-btn"
@@ -136,9 +160,8 @@ function Food() {
             >
               Finish Recipe
             </button>
-            )
           </div>
-        </div>
+        </Container>
       )}
     </div>
   );
