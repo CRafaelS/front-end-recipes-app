@@ -9,4 +9,11 @@ const Form = styled.form`
   justify-content: space-evenly;
 `;
 
+export const Div = styled.div`
+height: 2
+00px;
+display:flex;
+align-items:flex-end;
+`;
+
 export default Form;

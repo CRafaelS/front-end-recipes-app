@@ -105,6 +105,7 @@ function RecipesProvider({ children }) {
     strCategory,
     strMeal,
     strMealThumb,
+    strTags,
 
   }) => {
     setDoneRecipe((state) => ([...state, {
@@ -117,7 +118,7 @@ function RecipesProvider({ children }) {
       image: strMealThumb,
       doneDate: new Date().toLocaleDateString(),
       // source: https://pt.stackoverflow.com/questions/6526/como-formatar-data-no-javascript | Consulta em 13/04/2022
-      tags: [],
+      tags: strTags ? strTags.split(',') : [],
     }]));
   });
 

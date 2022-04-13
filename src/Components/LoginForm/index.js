@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import userContext from '../../contexts/user';
 import Input from '../Input';
-import Form from './StyledComponents/Form';
+import Form, { Div } from './StyledComponents/Form';
 import Header from './StyledComponents/Header';
 import Logo from './StyledComponents/Logo';
 import Welcome from './StyledComponents/Welcome';
@@ -53,6 +53,9 @@ function LoginForm() {
           Enter
         </Button>
       </Form>
+      <Div>
+        <p> by UaiQFome</p>
+      </Div>
     </>
   );
 }
