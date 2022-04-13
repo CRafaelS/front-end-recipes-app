@@ -1,11 +1,20 @@
 import React, { useEffect, useContext, useState } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import propTypes from 'prop-types';
 import copy from 'clipboard-copy';
+import recipesContext from '../contexts/recipes';
+import { requestMeal, requestRecommendedDrinks } from '../services/apiRequests';
+import {
+  resumeIngredientMeasures,
+  resumeIngredients,
+  verifyDoneRecipe,
+  verifyInProgressRecipe,
+} from '../helpers/recipes';
 import shareIcon from '../images/shareIcon.svg';
-import myContext from '../contexts/myContext';
+
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
-import { getDoneRecipes } from '../Helpers/detailsHelper';
+
 import {
   Image,
   ShareButton,
@@ -19,78 +28,52 @@ import {
   P,
 } from '../StyledComponents/FoodDetailsStyle';
 
-function FoodDetails() {
-  const {
-    detailedItem,
-    setDetailedItem,
-    ingredientesFood,
-    recommended,
-    setRecommended,
-    measuresFood,
-    isDone,
-    setDone,
-    continueRecipe,
-    setContinueRecipe,
-    favoriteRecipes,
-    saveRecipeFoodInState,
-  } = useContext(myContext);
+function FoodDetails({ match: { params: { id } } }) {
+  const { favoriteRecipes, toogleFavoriteMeal } = useContext(recipesContext);
 
-  const MAGIC_NUMBER_6 = 6;
-  const history = useHistory();
-  const location = useLocation();
-  const separator = location.pathname.split('/');
-
-  useEffect(() => {
-    (async () => {
-      const response = await fetch(
-        'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=',
-      );
-      const data = await response.json();
-      setRecommended(data);
-    })();
-  }, [setRecommended]);
-
-  useEffect(() => {
-    async function fetchData() {
-      const response = await fetch(
-        `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${separator[2]}`,
-      );
-      const data = await response.json();
-      if (data.meals && data.meals.length > 0) {
-        setDone(getDoneRecipes(data.meals[0].idMeals));
-      }
-      setDetailedItem(data);
-    }
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    if (detailedItem?.drinks?.length > 0) {
-      setDone(getDoneRecipes(detailedItem.meals[0].idDrink));
-      setContinueRecipe(getDrinksInProgress(detailedItem.meals[0].idDrink));
-    }
-  }, []);
-
+  const [meal, setMeal] = useState({});
+  const [ingredients, setIngredients] = useState([]);
+  const [ingredientMeasures, setIngredientMeasures] = useState([]);
+  const [recomendedDrinks, setRecommendedDrinks] = useState([]);
+  const [isDone, setDone] = useState(false);
+  const [inProgress, setInProgress] = useState(false);
   const [isShared, setShare] = useState(false);
+
+  const history = useHistory();
+
+  useEffect(() => {
+    const RECOMENDED_LIMIT = 6;
+    requestMeal(id).then(({ meals }) => setMeal(meals[0]));
+    requestRecommendedDrinks().then(({ drinks }) => {
+      setRecommendedDrinks(drinks.slice(0, RECOMENDED_LIMIT));
+    });
+    setInProgress(verifyInProgressRecipe(id));
+    setDone(verifyDoneRecipe(id));
+  }, [id, setRecommendedDrinks]);
+
+  useEffect(() => {
+    setIngredients(resumeIngredients(meal));
+    setIngredientMeasures(resumeIngredientMeasures(meal));
+  }, [meal]);
 
   const shareRecipe = () => {
     setShare(true);
-    copy(`http://localhost:3000/foods/${detailedItem.meals[0].idMeal}`);
+    copy(`http://localhost:3000/foods/${id}`);
   };
 
   return (
     <div>
-      {detailedItem.meals.length === 1 && (
+      {meal.idMeal && (
         <div>
           <Image
-            src={ detailedItem.meals[0].strMealThumb }
-            alt={ detailedItem.meals[0].strMeal }
+            src={ meal.strMealThumb }
+            alt={ meal.strMeal }
             data-testid="recipe-photo"
           />
           <main>
             <div>
               <RecipeTitle data-testid="recipe-title">
-                {detailedItem.meals[0].strMeal}
+                {meal.strMeal}
               </RecipeTitle>
               <ButtonsDiv>
                 <ShareButton type="button" onClick={ shareRecipe }>
@@ -105,41 +88,38 @@ function FoodDetails() {
                   )}
                 </ShareButton>
                 <input
-                  onClick={ () => saveRecipeFoodInState(detailedItem?.meals[0].idMeal) }
-                  name="favorite-btn"
                   type="image"
-                  data-testid="favorite-btn"
-                  alt="Favorite Icon"
                   src={
-                    favoriteRecipes?.length > 0
+                    favoriteRecipes.some((favoriteRecipe) => favoriteRecipe.id === id)
                       ? blackHeartIcon
                       : whiteHeartIcon
                   }
+                  alt="Favorite Icon"
+                  data-testid="favorite-btn"
+                  onClick={ () => toogleFavoriteMeal(meal) }
                 />
               </ButtonsDiv>
             </div>
             <TextDetails data-testid="recipe-category">
-              {detailedItem.meals[0].strCategory}
+              {meal.strCategory}
             </TextDetails>
             <TitlesDetails>Ingredients</TitlesDetails>
             <TextDetails>
               <ul>
-                {ingredientesFood.map((value, index) => (value ? (
+                {ingredients.map((ingredient, index) => (
                   <li
-                    key={ index }
+                    key={ ingredient }
                     data-testid={ `${index}-ingredient-name-and-measure` }
                   >
-                    {`${value} - ${measuresFood[index]}`}
+                    {`${ingredient} - ${ingredientMeasures[index]}`}
                   </li>
-                ) : (
-                  ''
-                )))}
+                ))}
               </ul>
             </TextDetails>
             <Container>
               <TitlesDetails>Instructions</TitlesDetails>
               <TextDetails data-testid="instructions">
-                {detailedItem.meals[0].strInstructions}
+                {meal.strInstructions}
               </TextDetails>
             </Container>
             <Container>
@@ -147,31 +127,31 @@ function FoodDetails() {
               <iframe
                 title="video"
                 src={ `https://www.youtube.com/embed/${
-                  detailedItem.meals[0].strYoutube.split('watch?v=')[1]
+                  meal.strYoutube.split('watch?v=')[1]
                 }` }
                 data-testid="video"
               />
             </Container>
             <TitlesDetails>Recommended</TitlesDetails>
             <Container>
-              {recommended.drinks
-                .slice(0, MAGIC_NUMBER_6)
-                .map((drink, index) => (
-                  <Button
-                    type="button"
-                    data-testid={ `${index}-recomendation-card` }
-                    key={ index }
-                  >
-                    <Img
-                      src={ drink.strDrinkThumb }
-                      alt={ drink.strDrink }
-                      data-testid={ `${index}-card-img` }
-                    />
-                    <P data-testid={ `${index}-recomendation-title` }>
-                      {drink.strDrink}
-                    </P>
-                  </Button>
-                ))}
+              {recomendedDrinks.map(({
+                idDrink,
+                strDrink,
+                strDrinkThumb,
+              }, index) => (
+                <Button
+                  className="container"
+                  data-testid={ `${index}-recomendation-card` }
+                  key={ idDrink }
+                >
+                  <Img
+                    src={ strDrinkThumb }
+                    alt={ strDrink }
+                    data-testid={ `${index}-card-img` }
+                  />
+                  <P data-testid={ `${index}-recomendation-title` }>{strDrink}</P>
+                </Button>
+              ))}
             </Container>
             {isDone ? (
               ''
@@ -180,10 +160,10 @@ function FoodDetails() {
                 type="button"
                 data-testid="start-recipe-btn"
                 onClick={ () => history.push(
-                  `${detailedItem.meals[0].idMeal}/in-progress`,
+                  `${id}/in-progress`,
                 ) }
               >
-                {continueRecipe ? 'Continue Recipe' : 'Start Recipe'}
+                {inProgress ? 'Continue Recipe' : 'Start Recipe'}
               </button>
             )}
           </main>
@@ -192,4 +172,13 @@ function FoodDetails() {
     </div>
   );
 }
+
+FoodDetails.propTypes = {
+  match: propTypes.shape({
+    params: propTypes.shape({
+      id: propTypes.string.isRequired,
+    }),
+  }).isRequired,
+};
+
 export default FoodDetails;

@@ -117,3 +117,15 @@ export async function requestRandomRecipeFromApi(typeOfFood) {
     console.log(error);
   }
 }
+
+export function requestMeal(id) {
+  return fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`)
+    .then((response) => response.json())
+    .catch((error) => console.log(error));
+}
+
+export function requestRecommendedDrinks() {
+  return fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=')
+    .then((response) => response.json())
+    .catch((error) => console.log(error));
+}

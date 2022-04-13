@@ -42,10 +42,24 @@ const Routes = () => (
       <Route path="/explore/foods" component={ FoodsExplorer } />
       <Route exact path="/explore" component={ Explorer } />
       <Route path="/drinks/:id/in-progress" component={ ProgressDrinkRecipe } />
-      <Route path="/drinks/:id" render={ (props) => <DrinkDetails { ...props } /> } />
+      <Route path="/drinks/:id" component={ DrinkDetails } />
       <Route path="/drinks" component={ Drinks } />
-      <Route path="/foods/:id/in-progress" component={ ProgressFoodRecipe } />
-      <Route path="/foods/:id" render={ (props) => <FoodDetails { ...props } /> } />
+      <Route
+        path="/foods/:id/in-progress"
+        render={ (props) => (
+          <RecipesProvider>
+            <ProgressFoodRecipe { ...props } />
+          </RecipesProvider>
+        ) }
+      />
+      <Route
+        path="/foods/:id"
+        render={ (props) => (
+          <RecipesProvider>
+            <FoodDetails { ...props } />
+          </RecipesProvider>
+        ) }
+      />
       <Route path="/foods" component={ Foods } />
       <Route exact path="/">
         <UserProvider>

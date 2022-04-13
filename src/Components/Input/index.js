@@ -1,5 +1,6 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import Form from 'react-bootstrap/Form';
 
 function Input({
   name,
@@ -7,19 +8,17 @@ function Input({
   controller,
   testId,
 }) {
-  const [firstNameLetter, ...nameRestLetters] = name;
-
   return (
-    <label htmlFor={ name }>
-      {`${firstNameLetter}${nameRestLetters.join('')}`}
-      <input
+    <Form.Group controlId={ name }>
+      <Form.Label className="d-none">{name}</Form.Label>
+      <Form.Control
+        size="lg"
         data-testid={ testId }
-        id={ name }
-        name={ name }
         type={ type }
+        placeholder={ name }
         onChange={ ({ target: { value } }) => controller(value) }
       />
-    </label>
+    </Form.Group>
   );
 }
 

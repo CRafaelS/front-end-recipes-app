@@ -65,7 +65,7 @@ function FavoriteRecipesCard({
       </button>
       <button
         type="button"
-        onClick={ () => removeFavoriteRecipe(index) }
+        onClick={ () => removeFavoriteRecipe(id) }
       >
         <img
           src={ blackHeartIcon }

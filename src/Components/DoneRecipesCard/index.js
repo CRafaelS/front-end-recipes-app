@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
 import copy from 'clipboard-copy';
 import shareIcon from '../../images/shareIcon.svg';
+import { Image, RecipeTitle, TitlesDetails } from './styledComponents';
 
 function DoneRecipesCard({
   id,
@@ -26,7 +27,7 @@ function DoneRecipesCard({
   return (
     <section className="done-recipes-card">
       <Link to={ `/${type}s/${id}` }>
-        <img
+        <Image
           src={ image }
           alt={ name }
           data-testid={ `${index}-horizontal-image` }
@@ -34,19 +35,19 @@ function DoneRecipesCard({
       </Link>
       {type === 'food'
         ? (
-          <p data-testid={ `${index}-horizontal-top-text` }>
+          <RecipeTitle data-testid={ `${index}-horizontal-top-text` }>
             {`${nationality} - ${category}`}
-          </p>
+          </RecipeTitle>
         )
         : (
-          <p data-testid={ `${index}-horizontal-top-text` }>
+          <RecipeTitle data-testid={ `${index}-horizontal-top-text` }>
             {alcoholicOrNot}
-          </p>
+          </RecipeTitle>
         )}
       <Link to={ `/${type}s/${id}` }>
-        <p data-testid={ `${index}-horizontal-name` }>
+        <TitlesDetails data-testid={ `${index}-horizontal-name` }>
           {name}
-        </p>
+        </TitlesDetails>
       </Link>
       <p data-testid={ `${index}-horizontal-done-date` }>
         {doneDate}
