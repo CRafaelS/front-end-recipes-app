@@ -1,28 +1,30 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import {
+  Button,
+  Container,
+} from './styledComponents';
 
 function ExploreButtons() {
   const history = useHistory();
 
   return (
-    <div>
-      <button
-        className="Button"
+    <Container>
+      <Button
         type="button"
         data-testid="explore-foods"
         onClick={ () => history.push('/explore/foods') }
       >
         Explore Foods
-      </button>
-      <button
-        className="Button"
+      </Button>
+      <Button
         type="button"
         data-testid="explore-drinks"
         onClick={ () => history.push('/explore/drinks') }
       >
         Explore Drinks
-      </button>
-    </div>
+      </Button>
+    </Container>
   );
 }
 export default ExploreButtons;

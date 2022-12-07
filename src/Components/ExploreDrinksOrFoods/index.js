@@ -1,6 +1,10 @@
 import React from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { requestRandomRecipeFromApi } from '../../services/apiRequests';
+import {
+  Button,
+  Container,
+} from './styledComponents';
 
 function ExploreDrinksOrFoods() {
   const actualPath = useLocation();
@@ -32,34 +36,33 @@ function ExploreDrinksOrFoods() {
   };
 
   return (
-    <div>
-      <button
-        className="Button"
+    <Container>
+      <Button
         type="button"
         data-testid="explore-by-ingredient"
         onClick={ handleIgredient }
       >
         By Ingredient
-      </button>
+      </Button>
       {actualPath.pathname === '/explore/foods' && (
-        <button
+        <Button
           className="Button"
           type="button"
           data-testid="explore-by-nationality"
           onClick={ () => history.push('/explore/foods/nationalities') }
         >
           By Nationality
-        </button>
+        </Button>
       )}
-      <button
+      <Button
         className="Button"
         type="button"
         data-testid="explore-surprise"
         onClick={ handleSurprise }
       >
         Surprise me!
-      </button>
-    </div>
+      </Button>
+    </Container>
   );
 }
 export default ExploreDrinksOrFoods;
